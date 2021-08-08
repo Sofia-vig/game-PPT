@@ -1,11 +1,8 @@
 customElements.define(
   "button-component",
   class extends HTMLElement {
-    shadow: ShadowRoot;
     value: string;
-    constructor() {
-      super();
-      this.shadow = this.attachShadow({ mode: "open" });
+    connectedCallback() {
       this.render();
     }
     render() {
@@ -37,8 +34,8 @@ customElements.define(
       <button class="button">${this.value}</button>
       `;
 
-      this.shadow.appendChild(style);
-      this.shadow.appendChild(div);
+      this.appendChild(style);
+      this.appendChild(div);
     }
   }
 );

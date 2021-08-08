@@ -1,7 +1,6 @@
 customElements.define(
   "contador-component",
   class extends HTMLElement {
-    shadow = this.attachShadow({ mode: "open" });
     constructor() {
       super();
     }
@@ -33,10 +32,10 @@ customElements.define(
       `;
 
       this.render();
-      this.shadow.appendChild(style);
+      this.appendChild(style);
     }
     render() {
-      this.shadow.innerHTML = `
+      this.innerHTML = `
       <div class="container-contador">
       <div class="circulo">
       <p class="numero">3</p>          
@@ -44,7 +43,7 @@ customElements.define(
       </div>      
       `;
 
-      const p = this.shadow.querySelector(".numero");
+      const p = this.querySelector(".numero");
       let counter = 2;
       const intervalId = setInterval(() => {
         p.textContent = counter.toString();

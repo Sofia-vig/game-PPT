@@ -4,17 +4,18 @@ customElements.define(
     type = this.getAttribute("type");
     value = this.getAttribute("value");
     label = this.getAttribute("label") || "";
+    name = this.getAttribute("name");
     placeholder = this.getAttribute("placeholder") || "";
     connectedCallback() {
       this.render();
     }
     render() {
-      const div = document.createElement("div");
-      div.className = "container-text-field";
-      div.innerHTML = `
+      this.innerHTML = `
+      <form class="container-text-field">
         <label class="text-field__label">${this.label}</label>
-        <input type="text" class="text-field__input" placeholder="${this.placeholder}"/>
-        <button class="text-field__button">${this.value}</button>
+        <input type="text" class="text-field__input" name="${this.name}" placeholder="${this.placeholder}"/>
+        <input type="submit" class="text-field__button" value="${this.value}"/>
+      </form>  
         `;
 
       const style = document.createElement("style");
@@ -25,10 +26,12 @@ customElements.define(
             justify-content:center;
             align-items:center;
             margin: 0 0 20px 0;
-            font-family: 'Odibee Sans', cursive;
+            
         }
         .text-field__label{
           font-size:45px;
+          font-family: 'Odibee Sans', cursive;
+          color:#000;
         }
         .text-field__button{
             width:322px;
@@ -45,15 +48,16 @@ customElements.define(
             width:322px;
             height:70px;
             margin-bottom:15px;
-            border: 10px solid #182460;
+            border: 10px solid var(--color-border-input);
             border-radius: 10px;
             font-size:48px;
+            font-family: 'Odibee Sans', cursive;
+            color:var(--color-border-input);
         }
         
         `;
 
       this.appendChild(style);
-      this.appendChild(div);
     }
   }
 );

@@ -4,7 +4,6 @@ const loser = require("url:../../img/loser.png");
 customElements.define(
   "result-component",
   class extends HTMLElement {
-    shadow = this.attachShadow({ mode: "open" });
     who: string;
     text: string;
     history: any;
@@ -64,28 +63,25 @@ customElements.define(
       
       `;
 
-      this.shadow.appendChild(style);
+      this.appendChild(style);
       this.render();
     }
     render() {
-      const div = document.createElement("div");
       if (this.who == "win") {
-        div.innerHTML = `
+        this.innerHTML = `
         <div class="container">
           <img src="${win}" class="${this.who}"/>
           <div class="${this.text}">${this.text}</div>
         </div>
         `;
       } else {
-        div.innerHTML = `
+        this.innerHTML = `
         <div class="container">
           <img src="${loser}" class="${this.who}"/>
           <div class="${this.text}">${this.text}</div>
         </div>
         `;
       }
-
-      this.shadow.appendChild(div);
     }
   }
 );
