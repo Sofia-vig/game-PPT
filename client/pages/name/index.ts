@@ -4,11 +4,13 @@ import { state } from "../../state";
 customElements.define(
   "name-page",
   class extends HTMLElement {
+    constructor() {
+      super();
+    }
     connectedCallback() {
       this.render();
       const form = document.querySelector("form-component");
       form.addEventListener("submit", (e: any) => {
-        e.preventDefault();
         const nombre = e.target.name.value;
         const currentState = state.getState();
         if (currentState.roomId) {
@@ -20,7 +22,6 @@ customElements.define(
             state.askNewRoom();
           });
         }
-
         Router.go("/code");
       });
     }
