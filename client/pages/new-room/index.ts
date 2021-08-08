@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { state } from "../../state";
 
 customElements.define(
   "new-room",
@@ -12,6 +13,7 @@ customElements.define(
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
         const name = e.target.name.value;
+        state.setName(name);
         Router.go("/code");
       });
     }

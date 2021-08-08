@@ -8,6 +8,7 @@ import "./components/hand";
 import "./components/resultado";
 import "./components/text";
 import "./components/text-field";
+import "./components/header";
 
 //State
 import { state } from "./state";
