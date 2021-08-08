@@ -1,5 +1,6 @@
 const state = {
   data: {
+    homeChoice: "",
     email: "",
     fullName: "",
     userId: "",

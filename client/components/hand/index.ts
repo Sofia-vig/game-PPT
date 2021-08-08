@@ -26,40 +26,6 @@ customElements.define(
       }
       this.size = this.getAttribute("size");
 
-      const style = document.createElement("style");
-      style.innerHTML = `
-      .${this.jugada}{
-        ${this.size == "big" ? "width:100px" : ""};
-        position:absolute;
-        ${this.jugada == "piedra" ? "left:40px" : ""};
-        ${this.jugada == "tijera" ? "right:40px" : ""};
-        ${this.jugada == "papel" ? "left:155px" : ""};
-
-      }    
-      .computer{
-        top:0;
-        left:120px;
-        transform: rotate(180deg);
-        width:130px;
-      }
-      .myplay{
-        bottom:0;
-        left:120px;
-        width:130px;
-      }
-
-      @media(min-width:500px){
-        .computer{
-          left:45%;
-        }
-        .myplay{
-          left:45%;
-        }
-      }
-      `;
-
-      this.appendChild(style);
-
       this.render();
     }
     render() {
