@@ -32,7 +32,7 @@ customElements.define(
         }
         .text-field__button{
             width:322px;
-            height:75px;
+            height:70px;
             background-color: var(--color-background-button);
             border: 10px solid var( --color-border-button);
             border-radius: 10px;
@@ -43,7 +43,7 @@ customElements.define(
         .text-field__input{
             text-align:center;
             width:322px;
-            height:78px;
+            height:70px;
             margin-bottom:15px;
             border: 10px solid #182460;
             border-radius: 10px;
