@@ -12,10 +12,10 @@
   },
   "scripts": {
     "dev:front": "parcel serve ./client/index.html",
-    "dev:api": "nodemon --watch './server/index.ts' --exec 'ts-node ./server/index.ts'",
+    "dev:api": "nodemon --watch './index.ts' --exec 'ts-node index.ts'",
     "build:front": "parcel build ./client/index.html",
-    "build:api": "tsc ./server/index.ts ./server/index.js",
+    "build:api": "tsc index.ts",
     "build": "yarn build:front && yarn build:api",
-    "start": "node ./server/index.js"
+    "start": "node index.js"
   }
 }
