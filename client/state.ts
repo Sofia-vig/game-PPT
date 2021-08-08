@@ -1,6 +1,5 @@
 const state = {
   data: {
-    email: "",
     name: "",
     userId: "",
     roomId: "",
@@ -19,7 +18,7 @@ const state = {
   setMyName(name: string) {
     const cs = this.getState();
     cs.name = name;
-    return fetch("signup", {
+    return fetch("/signup", {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -80,6 +79,22 @@ const state = {
       console.error("No hay un nombre en el state");
       callback(true);
     }
+  },
+  accessToRoom() {
+    const cs = this.getState();
+    const roomId = cs.roomId;
+    console.log("roomId", roomId);
+    console.log("userId", cs.userId);
+
+    fetch("/rooms/" + roomId + "?userId=" + cs.userId)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        cs.rtdbRoomId = data.rtdbRoomId;
+        this.setState(cs);
+        this.listenRoom();
+      });
   },
   setState(newState) {
     this.data = newState;

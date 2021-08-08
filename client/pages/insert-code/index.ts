@@ -9,7 +9,11 @@ customElements.define(
       const form = document.querySelector("form-component");
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
-        // Router.go("/name");
+        const code = e.target.code.value;
+        const currentState = state.getState();
+        currentState.roomId = code;
+        state.setState(currentState);
+        Router.go("/name");
       });
     }
     render() {

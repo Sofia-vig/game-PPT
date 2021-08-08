@@ -10,9 +10,17 @@ customElements.define(
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
         const nombre = e.target.name.value;
-        state.setMyName(nombre).then(() => {
-          state.askNewRoom();
-        });
+        const currentState = state.getState();
+        if (currentState.roomId) {
+          state.setMyName(nombre).then(() => {
+            state.accessToRoom();
+          });
+        } else {
+          state.setMyName(nombre).then(() => {
+            state.askNewRoom();
+          });
+        }
+
         Router.go("/code");
       });
     }

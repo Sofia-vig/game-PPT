@@ -11,17 +11,17 @@ customElements.define(
       this.render();
       const buttonNewRoom = document.querySelector(".new-room");
       buttonNewRoom.addEventListener("click", (e) => {
-        // const currentState = state.getState();
-        // currentState.homeChoice = "newRoom";
-        // state.setState(currentState);
+        const currentState = state.getState();
+        currentState.homeChoice = "newRoom";
+        state.setState(currentState);
         Router.go("/name");
       });
 
       const buttonExistentRoom = document.querySelector(".existent-room");
       buttonExistentRoom.addEventListener("click", (e) => {
-        // const currentState = state.getState();
-        // currentState.homeChoice = "existentRoom";
-        // state.setState(currentState);
+        const currentState = state.getState();
+        currentState.homeChoice = "existentRoom";
+        state.setState(currentState);
         Router.go("/new-code");
       });
     }
