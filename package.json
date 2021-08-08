@@ -1,0 +1,21 @@
+{
+  "name": "heroku",
+  "version": "1.0.0",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^16.4.12",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.12",
+    "parcel": "^2.0.0-rc.0",
+    "typescript": "^4.3.5"
+  },
+  "scripts": {
+    "dev:front": "parcel serve ./client/index.html",
+    "dev:api": "nodemon --watch './server/index.ts' --exec 'ts-node ./server/index.ts'",
+    "build:front": "parcel build ./client/index.html",
+    "build:api": "tsc ./server/index.ts ./server/index.js",
+    "build": "yarn build:front && yarn build:api",
+    "start": "node ./server/index.js"
+  }
+}
