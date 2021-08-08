@@ -5,9 +5,11 @@ customElements.define(
   class extends HTMLElement {
     roomId: string;
     connectedCallback() {
-      const currentState = state.getState();
-      this.roomId = currentState.roomId || "vacio";
-      this.render();
+      state.subscribe(() => {
+        const currentState = state.getState();
+        this.roomId = currentState.roomId || "vacio";
+        this.render();
+      });
     }
     render() {
       this.innerHTML = `

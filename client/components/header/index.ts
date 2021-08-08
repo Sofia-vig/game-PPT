@@ -8,8 +8,9 @@ customElements.define(
     roomShortId: string;
     connectedCallback() {
       const currentState = state.getState();
-      this.myName = currentState.participantes.owner.name;
-      this.otherName = currentState.participantes.other.name || "vacio";
+      this.otherName = "nose";
+      this.myName = currentState.name;
+
       this.roomShortId = currentState.roomId || "ningun codigo";
       this.render();
     }

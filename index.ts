@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 import * as express from "express";
 
 const app = express();
+app.use(express.json());
 const port = process.env.PORT || 3003;
 
 app.use(express.static("dist"));
@@ -21,23 +22,21 @@ app.get("/test", (req, res) => {
 });
 
 app.post("/signup", (req, res) => {
-  const email = req.body.email;
   const nombre = req.body.nombre;
   userCollection
-    .where("email", "==", email)
+    .where("nombre", "==", nombre)
     .get()
     .then((searchRes) => {
       if (searchRes.empty) {
         userCollection
           .add({
-            email,
             nombre,
           })
           .then((newUserRef) => {
             res.json({ id: newUserRef.id, new: true });
           });
       } else {
-        res.status(400).json({ message: "user already exists" });
+        res.json({ id: searchRes.docs[0].id, new: false });
       }
     });
 });
@@ -68,8 +67,13 @@ app.post("/rooms", (req, res) => {
         const roomRef = rtdb.ref("rooms/" + nanoid());
         roomRef
           .set({
-            messages: [],
-            owner: userId,
+            currentGame: {
+              [userId]: {
+                choice: "",
+                online: "true",
+                start: "false",
+              },
+            },
           })
           .then(() => {
             const roomLongId = roomRef.key;

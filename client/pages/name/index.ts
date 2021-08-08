@@ -1,22 +1,26 @@
+import { Router } from "@vaadin/router";
+import { state } from "../../state";
+
 customElements.define(
-  "existent-room",
+  "name-page",
   class extends HTMLElement {
-    constructor() {
-      super();
-    }
     connectedCallback() {
       this.render();
-      const form = document.querySelector("text-field");
+      const form = document.querySelector("form-component");
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
-        console.log(e.target.code.value);
+        const nombre = e.target.name.value;
+        state.setMyName(nombre).then(() => {
+          state.askNewRoom();
+        });
+        Router.go("/code");
       });
     }
     render() {
       this.innerHTML = `
         <section class="content-home">
           <text-component tag="h1">Piedra Papel o Tijera</text-component> 
-          <text-field value="Ingresar a la sala" placeholder="codigo" name="code"></text-field> 
+          <form-component value="Empezar" label="Tu nombre" name="name"></form-component> 
           <div class="container-hand"> 
               <hand-component jugada="tijera"></hand-component>
               <hand-component jugada="piedra"></hand-component>
@@ -27,17 +31,17 @@ customElements.define(
 
       const style = document.createElement("style");
       style.innerHTML = `
-        .container-hand{
-            position:fixed;
-            bottom:0;
-            left:0;
-            right:0;
-            margin:0 auto;
-            width:320px;
-            justify-content:space-between;
-            display:flex;
-        }
-        `;
+      .container-hand{
+          position:fixed;
+          bottom:0;
+          left:0;
+          right:0;
+          margin:0 auto;
+          width:320px;
+          justify-content:space-between;
+          display:flex;
+      }
+      `;
       this.appendChild(style);
     }
   }

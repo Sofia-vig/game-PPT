@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { state } from "../../state";
 
 customElements.define(
   "home-page",
@@ -10,12 +11,18 @@ customElements.define(
       this.render();
       const buttonNewRoom = document.querySelector(".new-room");
       buttonNewRoom.addEventListener("click", (e) => {
-        Router.go("/new-room");
+        // const currentState = state.getState();
+        // currentState.homeChoice = "newRoom";
+        // state.setState(currentState);
+        Router.go("/name");
       });
 
       const buttonExistentRoom = document.querySelector(".existent-room");
       buttonExistentRoom.addEventListener("click", (e) => {
-        Router.go("/existent-room");
+        // const currentState = state.getState();
+        // currentState.homeChoice = "existentRoom";
+        // state.setState(currentState);
+        Router.go("/new-code");
       });
     }
     render() {
