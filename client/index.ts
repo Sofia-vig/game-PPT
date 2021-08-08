@@ -1,4 +1,4 @@
-fetch("/env")
+fetch("/hola")
   .then((data) => {
     return data.json();
   })
