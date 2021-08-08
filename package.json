@@ -21,5 +21,8 @@
     "build:api": "tsc index.ts",
     "build": "yarn build:front && yarn build:api",
     "start": "node index.js"
+  },
+  "devDependencies": {
+    "@parcel/transformer-image": "2.0.0-rc.0"
   }
 }

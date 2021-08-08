@@ -5,17 +5,11 @@ const tijera = require("url:../../img/tijera.png");
 customElements.define(
   "hand-component",
   class extends HTMLElement {
-    shadow: ShadowRoot;
     size: string = "small";
     jugadas = ["piedra", "papel", "tijera"];
     jugada: string = "piedra";
-    active: boolean = false;
-    constructor() {
-      super();
-      this.shadow = this.attachShadow({ mode: "open" });
-    }
     addListeners() {
-      const move = this.shadow.querySelector(`.${this.jugada}`);
+      const move = this.querySelector(`.${this.jugada}`);
       move.addEventListener("click", (e: any) => {
         const event = new CustomEvent("change", {
           detail: {
@@ -37,9 +31,9 @@ customElements.define(
       .${this.jugada}{
         ${this.size == "big" ? "width:100px" : ""};
         position:absolute;
-        ${this.jugada == "piedra" ? "left:20px" : ""};
-        ${this.jugada == "tijera" ? "right:20px" : ""};
-        ${this.jugada == "papel" ? "left:145px" : ""};
+        ${this.jugada == "piedra" ? "left:40px" : ""};
+        ${this.jugada == "tijera" ? "right:40px" : ""};
+        ${this.jugada == "papel" ? "left:155px" : ""};
 
       }    
       .computer{
@@ -64,26 +58,24 @@ customElements.define(
       }
       `;
 
-      this.shadow.appendChild(style);
+      this.appendChild(style);
 
       this.render();
     }
     render() {
       const img = document.createElement("img");
       img.classList.add(this.jugada);
-      if (this.hasAttribute("play")) {
-        img.classList.add(this.getAttribute("play"));
-      }
-      // img.src = `./img/${this.jugada}.png`;
-      if (this.jugada == "tijera") {
-        img.src = tijera;
-      } else if (this.jugada == "piedra") {
-        img.src = piedra;
-      } else if (this.jugada == "papel") {
-        img.src = papel;
-      }
 
-      this.shadow.appendChild(img);
+      img.src =
+        this.jugada == "tijera"
+          ? tijera
+          : this.jugada == "papel"
+          ? papel
+          : this.jugada == "piedra"
+          ? piedra
+          : "";
+
+      this.appendChild(img);
 
       this.addListeners();
     }

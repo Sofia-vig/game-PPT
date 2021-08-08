@@ -16,7 +16,7 @@ customElements.define(
       .container-button{
           display:flex;
           justify-content:center;
-          margin: 0 0 75px 0;
+          margin: 0 0 20px 0;
       }
       .button{
           width:322px;

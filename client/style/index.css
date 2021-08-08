@@ -1,0 +1,20 @@
+:root {
+  --color-title: #009048;
+  --color-subtitle: #000;
+  --color-background-button: #006cfc;
+  --color-border-button: #001997;
+  --color-value-button: #d8fcfc;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.root {
+  width: 376px;
+  margin: 0 auto;
+}

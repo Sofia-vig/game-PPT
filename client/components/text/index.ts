@@ -16,7 +16,7 @@ customElements.define(
       style.innerHTML = `
       .container-text{
           width:317px;
-          margin:30px auto 74px auto;
+          margin:30px auto 30px auto;
           text-align:center;
           height:240px;
       }
