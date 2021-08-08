@@ -5,7 +5,7 @@ import { nanoid } from "nanoid";
 import * as express from "express";
 
 const app = express();
-const port = process.env.PORT || 3002;
+const port = process.env.PORT || 3003;
 
 app.use(express.static("dist"));
 
@@ -14,6 +14,10 @@ const roomsCollection = firestore.collection("rooms");
 
 app.listen(port, () => {
   console.log("Escuchando en el puerto: " + port);
+});
+
+app.get("/test", (req, res) => {
+  res.json({ test: "ok" });
 });
 
 app.post("/signup", (req, res) => {

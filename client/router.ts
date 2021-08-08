@@ -1,5 +1,5 @@
-import { Router } from "@vaadin/router";
-import "./pages/home";
+// import { Router } from "@vaadin/router";
+// import "./pages/home";
 
-const router = new Router(document.querySelector(".root"));
-router.setRoutes([{ path: "/", component: "home-page" }]);
+// const router = new Router(document.querySelector(".root"));
+// router.setRoutes([{ path: "/", component: "home-page" }]);
