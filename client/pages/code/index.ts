@@ -9,16 +9,15 @@ customElements.define(
     connectedCallback() {
       state.subscribe(() => {
         const currentState = state.getState();
-        const currentGame = currentState.currentGame;
-        const arrayParticipants = map(currentGame.currentGame);
+        const arrayParticipants = map(currentState.currentGame);
         if (arrayParticipants.length == 2) {
           const isOnline =
             arrayParticipants[0].online && arrayParticipants[1].online;
           isOnline ? Router.go("/instructions") : "";
         }
-
         this.roomId = currentState.roomId || "";
         this.render();
+        Router.go("/instructions");
       });
     }
     render() {

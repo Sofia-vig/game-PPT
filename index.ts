@@ -70,8 +70,8 @@ app.post("/rooms", (req, res) => {
             currentGame: {
               [userId]: {
                 choice: "",
-                online: "true",
-                start: "false",
+                online: true,
+                start: false,
               },
             },
           })
@@ -119,4 +119,9 @@ app.get("/rooms/:roomId", (req, res) => {
         });
       }
     });
+});
+
+app.patch("/rooms/:rtdbId", (req, res) => {
+  const data = req.body;
+  const { rtdbId } = req.params;
 });

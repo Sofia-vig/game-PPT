@@ -13,15 +13,19 @@ const state = {
   listenRoom() {
     const cs = this.getState();
     const roomRef = rtdb.ref("/rooms/" + cs.rtdbRoomId);
-    // console.log(roomRef.key);
     roomRef.on("value", (snap) => {
       const data = snap.val();
-      cs.currentGame = data;
+      cs.currentGame = data.currentGame;
       this.setState(cs);
     });
   },
   getState() {
     return this.data;
+  },
+  updateDataRoom() {
+    const cs = this.getState();
+    //terminar esto(es para que cuando cambie start:true o online:true me lo modifique tmb en
+    //la base de datos no solo en el state)
   },
   setMyName(name: string) {
     const cs = this.getState();
@@ -90,9 +94,6 @@ const state = {
   accessToRoom() {
     const cs = this.getState();
     const roomId = cs.roomId;
-    // console.log("roomId", roomId);
-    // console.log("userId", cs.userId);
-
     fetch("/rooms/" + roomId + "?userId=" + cs.userId)
       .then((res) => {
         return res.json();

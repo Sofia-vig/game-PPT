@@ -5,6 +5,7 @@ import "./pages/home";
 import "./pages/name";
 import "./pages/insert-code";
 import "./pages/code";
+import "./pages/instructions";
 
 const router = new Router(document.querySelector(".root"));
 router.setRoutes([
@@ -16,4 +17,5 @@ router.setRoutes([
     path: "/name",
     component: "name-page",
   },
+  { path: "/instructions", component: "instructions-page" },
 ]);
