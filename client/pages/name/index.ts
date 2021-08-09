@@ -11,6 +11,7 @@ customElements.define(
       this.render();
       const form = document.querySelector("form-component");
       form.addEventListener("submit", (e: any) => {
+        e.preventDefault();
         const nombre = e.target.name.value;
         const currentState = state.getState();
         if (currentState.roomId) {
@@ -19,7 +20,9 @@ customElements.define(
           });
         } else {
           state.setMyName(nombre).then(() => {
-            state.askNewRoom();
+            state.askNewRoom(() => {
+              state.accessToRoom();
+            });
           });
         }
         Router.go("/code");

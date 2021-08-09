@@ -1,5 +1,8 @@
+import { rtdb } from "./db";
+
 const state = {
   data: {
+    currentGame: "",
     name: "",
     userId: "",
     roomId: "",
@@ -7,10 +10,15 @@ const state = {
     roomChoice: "",
   },
   listeners: [],
-  init() {
-    const lastStorageData = localStorage.getItem("state");
-    const dataParseada = JSON.parse(lastStorageData);
-    this.setState(dataParseada);
+  listenRoom() {
+    const cs = this.getState();
+    const roomRef = rtdb.ref("/rooms/" + cs.rtdbRoomId);
+    // console.log(roomRef.key);
+    roomRef.on("value", (snap) => {
+      const data = snap.val();
+      cs.currentGame = data;
+      this.setState(cs);
+    });
   },
   getState() {
     return this.data;
@@ -27,7 +35,6 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         cs.userId = data.id;
         this.setState(cs);
       });
@@ -83,8 +90,8 @@ const state = {
   accessToRoom() {
     const cs = this.getState();
     const roomId = cs.roomId;
-    console.log("roomId", roomId);
-    console.log("userId", cs.userId);
+    // console.log("roomId", roomId);
+    // console.log("userId", cs.userId);
 
     fetch("/rooms/" + roomId + "?userId=" + cs.userId)
       .then((res) => {

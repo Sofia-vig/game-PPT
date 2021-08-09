@@ -12,7 +12,7 @@ customElements.define(
       const buttonNewRoom = document.querySelector(".new-room");
       buttonNewRoom.addEventListener("click", (e) => {
         const currentState = state.getState();
-        currentState.homeChoice = "newRoom";
+        currentState.roomChoice = "newRoom";
         state.setState(currentState);
         Router.go("/name");
       });
@@ -20,7 +20,7 @@ customElements.define(
       const buttonExistentRoom = document.querySelector(".existent-room");
       buttonExistentRoom.addEventListener("click", (e) => {
         const currentState = state.getState();
-        currentState.homeChoice = "existentRoom";
+        currentState.roomChoice = "existentRoom";
         state.setState(currentState);
         Router.go("/new-code");
       });

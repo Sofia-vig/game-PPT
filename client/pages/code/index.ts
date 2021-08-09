@@ -1,4 +1,6 @@
 import { state } from "../../state";
+import map from "lodash/map";
+import { Router } from "@vaadin/router";
 
 customElements.define(
   "code-page",
@@ -7,7 +9,15 @@ customElements.define(
     connectedCallback() {
       state.subscribe(() => {
         const currentState = state.getState();
-        this.roomId = currentState.roomId || "vacio";
+        const currentGame = currentState.currentGame;
+        const arrayParticipants = map(currentGame.currentGame);
+        if (arrayParticipants.length == 2) {
+          const isOnline =
+            arrayParticipants[0].online && arrayParticipants[1].online;
+          isOnline ? Router.go("/instructions") : "";
+        }
+
+        this.roomId = currentState.roomId || "";
         this.render();
       });
     }

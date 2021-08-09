@@ -1,4 +1,5 @@
 import { state } from "../../state";
+import { map } from "lodash";
 
 customElements.define(
   "header-component",
@@ -7,12 +8,14 @@ customElements.define(
     otherName: string;
     roomShortId: string;
     connectedCallback() {
-      const currentState = state.getState();
-      this.otherName = "nose";
-      this.myName = currentState.name;
-
-      this.roomShortId = currentState.roomId || "ningun codigo";
-      this.render();
+      state.subscribe(() => {
+        const currentState = state.getState();
+        // const array = map(currentState.currentGame);
+        // this.otherName = array[1];
+        this.myName = currentState.name;
+        this.roomShortId = currentState.roomId || "ningun codigo";
+        this.render();
+      });
     }
     render() {
       this.innerHTML = `
