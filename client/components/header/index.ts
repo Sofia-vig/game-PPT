@@ -10,12 +10,14 @@ customElements.define(
     connectedCallback() {
       state.subscribe(() => {
         const currentState = state.getState();
-        // const array = map(currentState.currentGame);
-        // this.otherName = array[1];
         this.myName = currentState.name;
         this.roomShortId = currentState.roomId || "ningun codigo";
         this.render();
       });
+      const currentState = state.getState();
+      this.myName = currentState.name;
+      this.roomShortId = currentState.roomId || "ningun codigo";
+      this.render();
     }
     render() {
       this.innerHTML = `

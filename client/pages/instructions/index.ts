@@ -11,6 +11,7 @@ customElements.define(
         const currentState = state.getState();
         currentState.currentGame[currentState.userId].start = true;
         state.setState(currentState);
+        state.updateDataRoom();
       });
     }
     render() {

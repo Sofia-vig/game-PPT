@@ -121,7 +121,20 @@ app.get("/rooms/:roomId", (req, res) => {
     });
 });
 
-app.patch("/rooms/:rtdbId", (req, res) => {
-  const data = req.body;
+app.post("/rooms/:rtdbId", (req, res) => {
+  const game = req.body.currentGame;
+  const userId = req.body.userId;
   const { rtdbId } = req.params;
+  const roomRef = rtdb.ref("rooms/" + rtdbId);
+  roomRef
+    .set({
+      currentGame: {
+        [userId]: {
+          game,
+        },
+      },
+    })
+    .then((resUpdate) => {
+      res.json({ update: true });
+    });
 });

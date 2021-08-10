@@ -24,8 +24,20 @@ const state = {
   },
   updateDataRoom() {
     const cs = this.getState();
-    //terminar esto(es para que cuando cambie start:true o online:true me lo modifique tmb en
-    //la base de datos no solo en el state)
+    fetch("/rooms/" + cs.rtdbRoomId, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        currentGame: cs.currentGame[cs.userId],
+        userId: cs.userId,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
   },
   setMyName(name: string) {
     const cs = this.getState();
@@ -109,7 +121,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    // localStorage.setItem("state", JSON.stringify(newState));
+    localStorage.setItem("state", JSON.stringify(newState));
     console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
