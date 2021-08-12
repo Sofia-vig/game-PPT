@@ -59,12 +59,13 @@ app.post("/auth", (req, res) => {
 
 app.post("/rooms", (req, res) => {
   const { userId } = req.body;
+  const data = { [userId]: { choice: "", online: true, start: false } };
   userCollection
     .doc(userId.toString())
     .get()
     .then((doc) => {
       if (doc.exists) {
-        const roomRef = rtdb.ref("rooms/" + nanoid());
+        const roomRef = rtdb.ref(`rooms/${nanoid()}`);
         roomRef
           .set({
             currentGame: {
@@ -124,15 +125,14 @@ app.get("/rooms/:roomId", (req, res) => {
 app.post("/rooms/:rtdbId", (req, res) => {
   const game = req.body.currentGame;
   const userId = req.body.userId;
+
   const { rtdbId } = req.params;
-  const roomRef = rtdb.ref("rooms/" + rtdbId);
+  const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef
-    .set({
-      currentGame: {
-        [userId]: {
-          game,
-        },
-      },
+    .update({
+      choice: game.choice,
+      online: game.online,
+      start: game.start,
     })
     .then((resUpdate) => {
       res.json({ update: true });

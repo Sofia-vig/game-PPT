@@ -5,7 +5,7 @@ customElements.define(
   "header-component",
   class extends HTMLElement {
     myName: string;
-    otherName: string;
+    otherName: string = "nose";
     roomShortId: string;
     connectedCallback() {
       state.subscribe(() => {

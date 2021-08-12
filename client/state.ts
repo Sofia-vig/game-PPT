@@ -24,7 +24,7 @@ const state = {
   },
   updateDataRoom() {
     const cs = this.getState();
-    fetch("/rooms/" + cs.rtdbRoomId, {
+    return fetch("/rooms/" + cs.rtdbRoomId, {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -42,18 +42,22 @@ const state = {
   setMyName(name: string) {
     const cs = this.getState();
     cs.name = name;
-    return fetch("/signup", {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ nombre: name }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        cs.userId = data.id;
-        this.setState(cs);
-      });
+    if (name) {
+      return fetch("/signup", {
+        method: "post",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ nombre: name }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          cs.userId = data.id;
+          this.setState(cs);
+        });
+    } else {
+      console.error("No ingresaste un name");
+    }
   },
   askNewRoom(callback?) {
     const cs = this.getState();
