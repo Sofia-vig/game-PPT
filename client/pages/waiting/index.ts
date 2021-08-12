@@ -14,7 +14,7 @@ customElements.define(
         if (arrayParticipants.length == 2) {
           const isStart =
             arrayParticipants[0].start && arrayParticipants[1].start;
-          isStart ? Router.go("/instructions") : "";
+          isStart ? Router.go("/game") : "";
         }
       });
     }

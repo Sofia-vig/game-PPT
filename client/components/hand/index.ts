@@ -29,6 +29,16 @@ customElements.define(
       this.render();
     }
     render() {
+      if (this.size == "big") {
+        const style = document.createElement("style");
+        style.innerHTML = `
+        .${this.jugada}{
+          background:red;
+        }
+        `;
+        this.appendChild(style);
+      }
+
       const img = document.createElement("img");
       img.classList.add(this.jugada);
 

@@ -7,6 +7,7 @@ import "./pages/insert-code";
 import "./pages/code";
 import "./pages/instructions";
 import "./pages/waiting";
+import "./pages/game";
 
 const router = new Router(document.querySelector(".root"));
 router.setRoutes([
@@ -20,4 +21,5 @@ router.setRoutes([
   },
   { path: "/instructions", component: "instructions-page" },
   { path: "/waiting", component: "waiting-page" },
+  { path: "/game", component: "game-page" },
 ]);
