@@ -143,9 +143,25 @@ const state = {
       return "you";
     }
   },
+  getScore() {
+    const history = JSON.parse(localStorage.getItem("history"));
+    console.log(history);
+
+    var you = 0;
+    var other = 0;
+    for (const p of history) {
+      if (p == "you") {
+        you++;
+      } else if (p == "other") {
+        other++;
+      }
+    }
+    return { you, other };
+  },
   pushToHistory(who: string) {
     const cs = this.getState();
     cs.history.push(who);
+    this.setState(cs);
     localStorage.setItem("history", cs.history.toString());
   },
   accessToRoom() {
