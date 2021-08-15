@@ -10,7 +10,7 @@ const state = {
     roomChoice: "",
     myMove: "",
     otherMove: "",
-    history: [],
+    history: JSON.parse(localStorage.getItem("history")) || [],
   },
   listeners: [],
   listenRoom() {
@@ -77,6 +77,10 @@ const state = {
       console.error("No ingresaste un name");
     }
   },
+  getHistory() {
+    const history = JSON.parse(localStorage.getItem("history"));
+    console.log(history);
+  },
   addParticipant(callback?) {
     const cs = this.getState();
     fetch("/rooms/participant/" + cs.rtdbRoomId, {
@@ -136,33 +140,14 @@ const state = {
     const winCompu = [compuPapel, compuPiedra, compuTijera].includes(true);
 
     if (winCompu) {
-      this.pushToHistory("other");
+      cs.history.push({ win: "other" });
+      this.setState(cs);
       return "other";
     } else if (winYou) {
-      this.pushToHistory("you");
+      cs.history.push({ win: "you" });
+      this.setState(cs);
       return "you";
     }
-  },
-  getScore() {
-    const history = JSON.parse(localStorage.getItem("history")) || [];
-    console.log(history);
-
-    var you = 0;
-    var other = 0;
-    for (const p of history) {
-      if (p == "you") {
-        you++;
-      } else if (p == "other") {
-        other++;
-      }
-    }
-    return { you, other };
-  },
-  pushToHistory(who: string) {
-    const cs = this.getState();
-    cs.history.push(who);
-    this.setState(cs);
-    localStorage.setItem("history", cs.history.toString());
   },
   accessToRoom() {
     const cs = this.getState();
@@ -182,6 +167,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
+    localStorage.setItem("history", JSON.stringify(this.data.history));
     console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
