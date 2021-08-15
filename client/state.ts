@@ -144,7 +144,7 @@ const state = {
     }
   },
   getScore() {
-    const history = JSON.parse(localStorage.getItem("history"));
+    const history = JSON.parse(localStorage.getItem("history")) || [];
     console.log(history);
 
     var you = 0;
