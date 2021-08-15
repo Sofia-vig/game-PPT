@@ -40,7 +40,7 @@ customElements.define(
        .container-myplay{
           margin: 0 auto;
           text-align:center;
-          margin-top:${currentState.myMove == "papel" ? "150px" : "50px"};
+          margin-top:${currentState.myMove == "papel" ? "70px" : "50px"};
         }
         .container-otherplay{
           margin: 0 auto;
@@ -58,8 +58,8 @@ customElements.define(
           `;
         this.appendChild(style);
         setTimeout(() => {
-          console.log(currentState.myMove, currentState.otherMove);
-        }, 6000);
+          Router.go("/result");
+        }, 9000);
       }
     }
     render() {

@@ -109,6 +109,29 @@ const state = {
       console.error("no hay userId");
     }
   },
+  whoWins() {
+    const cs = this.getState();
+    const myPlay = cs.myMove;
+    const otherPlay = cs.otherMove;
+
+    const youTijera = myPlay == "tijera" && otherPlay == "papel";
+    const youPiedra = myPlay == "piedra" && otherPlay == "tijera";
+    const youPapel = myPlay == "papel" && otherPlay == "piedra";
+
+    const winYou = [youPapel, youPiedra, youTijera].includes(true);
+
+    const compuTijera = myPlay == "papel" && otherPlay == "tijera";
+    const compuPiedra = myPlay == "tijera" && otherPlay == "piedra";
+    const compuPapel = myPlay == "piedra" && otherPlay == "papel";
+
+    const winCompu = [compuPapel, compuPiedra, compuTijera].includes(true);
+
+    if (winCompu) {
+      return "other";
+    } else if (winYou) {
+      return "you";
+    }
+  },
   accessToRoom() {
     const cs = this.getState();
     const roomId = cs.roomId;

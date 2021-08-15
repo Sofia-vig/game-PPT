@@ -6,19 +6,19 @@ customElements.define(
   class extends HTMLElement {
     who: string;
     text: string;
-    history: any;
-    constructor() {
-      super();
-    }
     connectedCallback() {
       this.who = this.getAttribute("who");
       if (this.who == "you") {
         this.text = "Ganaste";
-      } else if (this.who == "computadora") {
+      } else if (this.who == "other") {
         this.text = "Perdiste";
       } else {
         this.text = "Empate";
       }
+
+      this.render();
+    }
+    render() {
       const style = document.createElement("style");
       style.innerHTML = `
       .container{
@@ -63,25 +63,22 @@ customElements.define(
       
       `;
 
-      this.appendChild(style);
-      this.render();
-    }
-    render() {
-      if (this.who == "win") {
+      if (this.who == "you") {
         this.innerHTML = `
         <div class="container">
-          <img src="${win}" class="${this.who}"/>
-          <div class="${this.text}">${this.text}</div>
+        <img src="${win}" class="${this.who}"/>
+        <div class="${this.text}">${this.text}</div>
         </div>
         `;
       } else {
         this.innerHTML = `
         <div class="container">
-          <img src="${loser}" class="${this.who}"/>
-          <div class="${this.text}">${this.text}</div>
+        <img src="${loser}" class="${this.who}"/>
+        <div class="${this.text}">${this.text}</div>
         </div>
         `;
       }
+      this.appendChild(style);
     }
   }
 );
