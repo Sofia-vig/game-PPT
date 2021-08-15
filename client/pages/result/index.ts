@@ -9,7 +9,6 @@ customElements.define(
     whoWins: string;
     connectedCallback() {
       this.whoWins = state.whoWins();
-      state.getHistory();
       this.render();
     }
     render() {

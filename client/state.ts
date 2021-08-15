@@ -10,7 +10,6 @@ const state = {
     roomChoice: "",
     myMove: "",
     otherMove: "",
-    history: JSON.parse(localStorage.getItem("history")) || [],
   },
   listeners: [],
   listenRoom() {
@@ -77,10 +76,7 @@ const state = {
       console.error("No ingresaste un name");
     }
   },
-  getHistory() {
-    const history = JSON.parse(localStorage.getItem("history"));
-    console.log(history);
-  },
+
   addParticipant(callback?) {
     const cs = this.getState();
     fetch("/rooms/participant/" + cs.rtdbRoomId, {
@@ -140,12 +136,8 @@ const state = {
     const winCompu = [compuPapel, compuPiedra, compuTijera].includes(true);
 
     if (winCompu) {
-      cs.history.push({ win: "other" });
-      this.setState(cs);
       return "other";
     } else if (winYou) {
-      cs.history.push({ win: "you" });
-      this.setState(cs);
       return "you";
     }
   },
@@ -167,7 +159,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    localStorage.setItem("history", JSON.stringify(this.data.history));
+    // localStorage.setItem("history", JSON.stringify(newState.history));
     console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
