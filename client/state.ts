@@ -22,6 +22,13 @@ const state = {
   getState() {
     return this.data;
   },
+  setMove(move: string) {
+    const cs = this.getState();
+    console.log(cs.currentGame);
+    cs.currentGame[cs.userId].choice = move;
+    this.setState(cs);
+    this.updateDataRoom();
+  },
   updateDataRoom() {
     const cs = this.getState();
     return fetch("/rooms/" + cs.rtdbRoomId, {

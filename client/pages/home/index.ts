@@ -9,7 +9,7 @@ customElements.define(
     }
     connectedCallback() {
       this.render();
-      Router.go("/game");
+      // Router.go("/game");
       const buttonNewRoom = document.querySelector(".new-room");
       buttonNewRoom.addEventListener("click", (e) => {
         const currentState = state.getState();

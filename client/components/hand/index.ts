@@ -33,7 +33,9 @@ customElements.define(
         const style = document.createElement("style");
         style.innerHTML = `
         .${this.jugada}{
-          background:red;
+          width:120px;
+          position:absolute;
+          bottom:0;
         }
         `;
         this.appendChild(style);

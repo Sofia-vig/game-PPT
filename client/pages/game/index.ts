@@ -1,31 +1,55 @@
+import { state } from "../../state";
+
 customElements.define(
   "game-page",
   class extends HTMLElement {
     connectedCallback() {
       this.render();
+      const tijera = document.querySelector(".hand__tijera");
+      const piedra = document.querySelector(".hand__piedra");
+      const papel = document.querySelector(".hand__papel");
+      tijera.addEventListener("click", (e: any) => {
+        e.preventDefault();
+        state.setMove("tijera");
+      });
+      piedra.addEventListener("click", (e) => {
+        e.preventDefault();
+        state.setMove("piedra");
+      });
+      papel.addEventListener("click", (e) => {
+        e.preventDefault();
+        state.setMove("papel");
+      });
     }
     render() {
       this.innerHTML = `
         <contador-component></contador-component>
         <section class="container-hand"> 
-              <hand-component jugada="tijera" size="big"></hand-component>
-              <hand-component jugada="piedra" size="big"></hand-component>
-              <hand-component jugada="papel" size="big"></hand-component>
+              <hand-component jugada="tijera" size="big" class="hand__tijera"></hand-component>
+              <hand-component jugada="piedra" size="big" class="hand__piedra"></hand-component>
+              <hand-component jugada="papel" size="big" class="hand__papel"></hand-component>
         </section>
         `;
 
       const style = document.createElement("style");
       style.innerHTML = `
+      .container-hand{
+        position:fixed;
+        bottom:-50px;
+        left:0;
+        right:0;
+        width:320px;
+        justify-content:space-around;
+        gap:100px;
+        margin: 0 80px 0 0;
+        display:flex;
+    }
+      @media(min-width:640px){
         .container-hand{
-            position:fixed;
-            bottom:0;
-            left:0;
-            right:0;
-            margin:0 auto;
-            width:320px;
-            justify-content:space-between;
-            display:flex;
+            margin: 0 auto;
         }
+      }
+        
         `;
       this.appendChild(style);
     }
