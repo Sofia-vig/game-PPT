@@ -68,6 +68,20 @@ const state = {
       console.error("No ingresaste un name");
     }
   },
+  addParticipant() {
+    const cs = this.getState();
+    fetch("/rooms/participant/" + cs.rtdbRoomId, {
+      method: "post",
+      headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ userId: cs.userId }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  },
   askNewRoom(callback?) {
     const cs = this.getState();
     if (cs.userId) {
@@ -119,7 +133,7 @@ const state = {
   accessToRoom() {
     const cs = this.getState();
     const roomId = cs.roomId;
-    fetch("/rooms/" + roomId + "?userId=" + cs.userId)
+    return fetch("/rooms/" + roomId + "?userId=" + cs.userId)
       .then((res) => {
         return res.json();
       })

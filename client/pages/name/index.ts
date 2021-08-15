@@ -1,4 +1,5 @@
 import { Router } from "@vaadin/router";
+import { stat } from "fs";
 import { state } from "../../state";
 
 customElements.define(
@@ -9,23 +10,27 @@ customElements.define(
     }
     connectedCallback() {
       this.render();
-      const form = document.querySelector("form-component");
+      const form = this.querySelector("form-component");
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
         const nombre = e.target.name.value;
         const currentState = state.getState();
         if (currentState.roomId) {
           state.setMyName(nombre).then(() => {
-            state.accessToRoom();
+            state.accessToRoom().then(() => {
+              state.addParticipant();
+              Router.go("/instructions");
+            });
           });
         } else {
           state.setMyName(nombre).then(() => {
             state.askNewRoom(() => {
-              state.accessToRoom();
+              state.accessToRoom().then(() => {
+                Router.go("/code");
+              });
             });
           });
         }
-        Router.go("/code");
       });
     }
     render() {

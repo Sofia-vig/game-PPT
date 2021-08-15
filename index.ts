@@ -59,7 +59,6 @@ app.post("/auth", (req, res) => {
 
 app.post("/rooms", (req, res) => {
   const { userId } = req.body;
-  const data = { [userId]: { choice: "", online: true, start: false } };
   userCollection
     .doc(userId.toString())
     .get()
@@ -134,7 +133,19 @@ app.post("/rooms/:rtdbId", (req, res) => {
       online: game.online,
       start: game.start,
     })
-    .then((resUpdate) => {
+    .then(() => {
       res.json({ update: true });
+    });
+});
+
+app.post("/rooms/participant/:rtdbId", (req, res) => {
+  const userId = req.body.userId;
+
+  const { rtdbId } = req.params;
+  const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
+  roomRef
+    .update({ [userId]: { choice: "", online: true, start: false } })
+    .then(() => {
+      res.json({ ok: true });
     });
 });

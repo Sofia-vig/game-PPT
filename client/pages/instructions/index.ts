@@ -1,5 +1,6 @@
 import { state } from "../../state";
 import { Router } from "@vaadin/router";
+import map from "lodash/map";
 
 customElements.define(
   "instructions-page",
@@ -11,9 +12,17 @@ customElements.define(
         const currentState = state.getState();
         currentState.currentGame[currentState.userId].start = true;
         state.setState(currentState);
-        state.updateDataRoom().then(() => {
-          Router.go("/waiting");
-        });
+
+        const arrayParticipants = map(currentState.currentGame);
+        if (arrayParticipants[0].start && arrayParticipants[1].start) {
+          state.updateDataRoom().then(() => {
+            Router.go("/game");
+          });
+        } else {
+          state.updateDataRoom().then(() => {
+            Router.go("/waiting");
+          });
+        }
       });
     }
     render() {
