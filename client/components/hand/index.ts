@@ -8,30 +8,42 @@ customElements.define(
     size: string = "small";
     jugadas = ["piedra", "papel", "tijera"];
     jugada: string = "piedra";
+    play: string;
     connectedCallback() {
       const jugadaAttribute = this.getAttribute("jugada");
       if (this.jugadas.includes(jugadaAttribute)) {
         this.jugada = jugadaAttribute;
       }
       this.size = this.getAttribute("size");
+      this.play = this.getAttribute("play");
 
       this.render();
     }
     render() {
-      if (this.size == "big") {
-        const style = document.createElement("style");
+      const style = document.createElement("style");
+      if (this.size == "big-big") {
         style.innerHTML = `
         .${this.jugada}{
-          width:120px;
+          width:160px;
+        }
+        .other{
+          transform: rotate(180deg);
+        }
+        `;
+      } else if (this.size == "big") {
+        style.innerHTML = `
+        .${this.jugada}{
+          width:100px;
           position:absolute;
           bottom:0;
         }
         `;
-        this.appendChild(style);
       }
 
+      this.appendChild(style);
       const img = document.createElement("img");
       img.classList.add(this.jugada);
+      img.classList.add(this.play);
       img.setAttribute("name", this.jugada);
 
       img.src =

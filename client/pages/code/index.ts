@@ -17,7 +17,6 @@ customElements.define(
         }
         this.roomId = currentState.roomId || "";
         this.render();
-        // Router.go("/instructions");
       });
     }
     render() {

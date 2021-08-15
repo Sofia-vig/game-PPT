@@ -28,11 +28,6 @@ const state = {
     const cs = this.getState();
     cs.currentGame[cs.userId].choice = move;
     cs.myMove = move;
-    for (var key in cs.currentGame) {
-      if (key != cs.userId) {
-        cs.otherMove = cs.currentGame[key].choice || "";
-      }
-    }
     this.setState(cs);
     this.updateDataRoom();
   },
@@ -73,7 +68,7 @@ const state = {
       console.error("No ingresaste un name");
     }
   },
-  addParticipant() {
+  addParticipant(callback?) {
     const cs = this.getState();
     fetch("/rooms/participant/" + cs.rtdbRoomId, {
       method: "post",
@@ -85,6 +80,9 @@ const state = {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        if (callback) {
+          callback();
+        }
       });
   },
   askNewRoom(callback?) {
@@ -109,30 +107,6 @@ const state = {
         });
     } else {
       console.error("no hay userId");
-    }
-  },
-  signIn(callback) {
-    const cs = this.getState();
-    const name = cs.name;
-    if (name) {
-      fetch("/auth", {
-        method: "post",
-        headers: {
-          "content-type": "application/json",
-        },
-        body: JSON.stringify({ name }),
-      })
-        .then((res) => {
-          return res.json();
-        })
-        .then((data) => {
-          cs.userId = data.id;
-          this.setState(cs);
-          callback();
-        });
-    } else {
-      console.error("No hay un nombre en el state");
-      callback(true);
     }
   },
   accessToRoom() {

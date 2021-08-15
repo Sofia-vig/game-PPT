@@ -1,17 +1,65 @@
 import { state } from "../../state";
+import { Router } from "@vaadin/router";
 
 customElements.define(
   "game-page",
   class extends HTMLElement {
+    myPlay: string;
     connectedCallback() {
       this.render();
       const containerHands = this.querySelectorAll(".container-hand");
       for (const hand of containerHands) {
         hand.addEventListener("click", (e: any) => {
           e.preventDefault();
-          const play = e.target.name;
-          state.setMove(play);
+          this.myPlay = e.target.name;
+          state.setMove(this.myPlay || "");
         });
+      }
+      setTimeout(() => {
+        const cs = state.getState();
+        for (var key in cs.currentGame) {
+          if (key != cs.userId) {
+            cs.otherMove = cs.currentGame[key].choice || "";
+          }
+        }
+        this.hands();
+      }, 4000);
+    }
+    hands() {
+      const currentState = state.getState();
+      if (currentState.myMove == "" || currentState.otherMove == "") {
+        Router.go("/instructions");
+      } else {
+        this.innerHTML = ``;
+        const style = document.createElement("style");
+        style.innerHTML = `
+        *{
+          overflow-x:hidden; 
+          overflow-y:hidden;
+        }
+       .container-myplay{
+          margin: 0 auto;
+          text-align:center;
+          margin-top:${currentState.myMove == "papel" ? "150px" : "50px"};
+        }
+        .container-otherplay{
+          margin: 0 auto;
+          text-align:center;
+          margin-bottom:50px;
+        }
+        `;
+        this.innerHTML = `
+        <div class="container-otherplay">
+          <hand-component jugada=${currentState.otherMove} size="big-big" play="other" class="${currentState.otherMove}"></hand-component>
+        </div>
+        <div class="container-myplay">
+          <hand-component jugada=${currentState.myMove} size="big-big" play="myplay" class="${currentState.myMove}"></hand-component>
+        </div>
+          `;
+        this.appendChild(style);
+        setTimeout(() => {
+          console.log(currentState.myMove, currentState.otherMove);
+        }, 6000);
       }
     }
     render() {
@@ -28,7 +76,7 @@ customElements.define(
       style.innerHTML = `
       .container-hand{
         position:fixed;
-        bottom:-50px;
+        bottom:-20px;
         left:0;
         right:0;
         width:320px;
