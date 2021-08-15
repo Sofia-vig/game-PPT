@@ -16,12 +16,7 @@ customElements.define(
         });
       }
       setTimeout(() => {
-        const cs = state.getState();
-        for (var key in cs.currentGame) {
-          if (key != cs.userId) {
-            cs.otherMove = cs.currentGame[key].choice || "";
-          }
-        }
+        state.setOtherMove();
         this.hands();
       }, 4000);
     }

@@ -9,11 +9,3 @@ import "./components/resultado";
 import "./components/text";
 import "./components/form";
 import "./components/header";
-
-//State
-import { state } from "./state";
-import { initializeApp } from "firebase-admin";
-
-(function () {
-  // state.init();
-})();

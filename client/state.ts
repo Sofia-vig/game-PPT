@@ -10,6 +10,7 @@ const state = {
     roomChoice: "",
     myMove: "",
     otherMove: "",
+    history: [],
   },
   listeners: [],
   listenRoom() {
@@ -23,6 +24,14 @@ const state = {
   },
   getState() {
     return this.data;
+  },
+  setOtherMove() {
+    const cs = state.getState();
+    for (var key in cs.currentGame) {
+      if (key != cs.userId) {
+        cs.otherMove = cs.currentGame[key].choice || "";
+      }
+    }
   },
   setMove(move: string) {
     const cs = this.getState();
@@ -127,10 +136,17 @@ const state = {
     const winCompu = [compuPapel, compuPiedra, compuTijera].includes(true);
 
     if (winCompu) {
+      this.pushToHistory("other");
       return "other";
     } else if (winYou) {
+      this.pushToHistory("you");
       return "you";
     }
+  },
+  pushToHistory(who: string) {
+    const cs = this.getState();
+    cs.history.push(who);
+    localStorage.setItem("history", cs.history.toString());
   },
   accessToRoom() {
     const cs = this.getState();
@@ -150,7 +166,6 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    localStorage.setItem("state", JSON.stringify(newState));
     console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
