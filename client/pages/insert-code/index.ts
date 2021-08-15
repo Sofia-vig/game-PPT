@@ -6,7 +6,7 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       this.render();
-      const form = document.querySelector("form-component");
+      const form = this.querySelector("form-component");
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
         const code = e.target.code.value;

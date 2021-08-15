@@ -8,17 +8,6 @@ customElements.define(
     size: string = "small";
     jugadas = ["piedra", "papel", "tijera"];
     jugada: string = "piedra";
-    addListeners() {
-      const move = this.querySelector(`.${this.jugada}`);
-      move.addEventListener("click", (e: any) => {
-        const event = new CustomEvent("change", {
-          detail: {
-            jugada: this.jugada,
-          },
-        });
-        this.dispatchEvent(event);
-      });
-    }
     connectedCallback() {
       const jugadaAttribute = this.getAttribute("jugada");
       if (this.jugadas.includes(jugadaAttribute)) {
@@ -43,6 +32,7 @@ customElements.define(
 
       const img = document.createElement("img");
       img.classList.add(this.jugada);
+      img.setAttribute("name", this.jugada);
 
       img.src =
         this.jugada == "tijera"
@@ -54,8 +44,6 @@ customElements.define(
           : "";
 
       this.appendChild(img);
-
-      this.addListeners();
     }
   }
 );

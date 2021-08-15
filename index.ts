@@ -17,10 +17,7 @@ app.listen(port, () => {
   console.log("Escuchando en el puerto: " + port);
 });
 
-app.get("/test", (req, res) => {
-  res.json({ test: "ok" });
-});
-
+//Agrega el user si no existe, sino solo devuelve el id
 app.post("/signup", (req, res) => {
   const nombre = req.body.nombre;
   userCollection
@@ -41,22 +38,7 @@ app.post("/signup", (req, res) => {
     });
 });
 
-app.post("/auth", (req, res) => {
-  const { email } = req.body;
-  userCollection
-    .where("email", "==", email)
-    .get()
-    .then((searchRes) => {
-      if (searchRes.empty) {
-        res.status(404).json({ message: "not found" });
-      } else {
-        res.json({
-          id: searchRes.docs[0].id,
-        });
-      }
-    });
-});
-
+//Crea un room
 app.post("/rooms", (req, res) => {
   const { userId } = req.body;
   userCollection
@@ -98,6 +80,7 @@ app.post("/rooms", (req, res) => {
     });
 });
 
+//Devuelve el id de la rtdb
 app.get("/rooms/:roomId", (req, res) => {
   const { userId } = req.query;
   const { roomId } = req.params;
@@ -121,11 +104,12 @@ app.get("/rooms/:roomId", (req, res) => {
     });
 });
 
+//Actualiza datos del roomId
 app.post("/rooms/:rtdbId", (req, res) => {
   const game = req.body.currentGame;
   const userId = req.body.userId;
-
   const { rtdbId } = req.params;
+
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef
     .update({
@@ -138,10 +122,11 @@ app.post("/rooms/:rtdbId", (req, res) => {
     });
 });
 
+//Agrega un participante al room
 app.post("/rooms/participant/:rtdbId", (req, res) => {
   const userId = req.body.userId;
-
   const { rtdbId } = req.params;
+
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
   roomRef
     .update({ [userId]: { choice: "", online: true, start: false } })

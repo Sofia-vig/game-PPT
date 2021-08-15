@@ -8,7 +8,8 @@ const state = {
     roomId: "",
     rtdbRoomId: "",
     roomChoice: "",
-    handChoice: "",
+    myMove: "",
+    otherMove: "",
   },
   listeners: [],
   listenRoom() {
@@ -25,9 +26,13 @@ const state = {
   },
   setMove(move: string) {
     const cs = this.getState();
-    console.log(cs.currentGame);
     cs.currentGame[cs.userId].choice = move;
-    cs.handChoice = move;
+    cs.myMove = move;
+    for (var key in cs.currentGame) {
+      if (key != cs.userId) {
+        cs.otherMove = cs.currentGame[key].choice || "";
+      }
+    }
     this.setState(cs);
     this.updateDataRoom();
   },

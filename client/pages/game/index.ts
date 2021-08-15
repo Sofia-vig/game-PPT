@@ -5,21 +5,14 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       this.render();
-      const tijera = document.querySelector(".hand__tijera");
-      const piedra = document.querySelector(".hand__piedra");
-      const papel = document.querySelector(".hand__papel");
-      tijera.addEventListener("click", (e: any) => {
-        e.preventDefault();
-        state.setMove("tijera");
-      });
-      piedra.addEventListener("click", (e) => {
-        e.preventDefault();
-        state.setMove("piedra");
-      });
-      papel.addEventListener("click", (e) => {
-        e.preventDefault();
-        state.setMove("papel");
-      });
+      const containerHands = this.querySelectorAll(".container-hand");
+      for (const hand of containerHands) {
+        hand.addEventListener("click", (e: any) => {
+          e.preventDefault();
+          const play = e.target.name;
+          state.setMove(play);
+        });
+      }
     }
     render() {
       this.innerHTML = `

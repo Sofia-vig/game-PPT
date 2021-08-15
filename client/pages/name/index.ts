@@ -1,5 +1,4 @@
 import { Router } from "@vaadin/router";
-import { stat } from "fs";
 import { state } from "../../state";
 
 customElements.define(

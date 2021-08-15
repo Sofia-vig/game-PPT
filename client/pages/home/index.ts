@@ -10,7 +10,7 @@ customElements.define(
     connectedCallback() {
       this.render();
       // Router.go("/game");
-      const buttonNewRoom = document.querySelector(".new-room");
+      const buttonNewRoom = this.querySelector(".new-room");
       buttonNewRoom.addEventListener("click", (e) => {
         const currentState = state.getState();
         currentState.roomChoice = "newRoom";
@@ -18,7 +18,7 @@ customElements.define(
         Router.go("/name");
       });
 
-      const buttonExistentRoom = document.querySelector(".existent-room");
+      const buttonExistentRoom = this.querySelector(".existent-room");
       buttonExistentRoom.addEventListener("click", (e) => {
         const currentState = state.getState();
         currentState.roomChoice = "existentRoom";
