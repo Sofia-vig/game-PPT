@@ -13,7 +13,11 @@ customElements.define(
         if (arrayParticipants.length == 2) {
           const isOnline =
             arrayParticipants[0].online && arrayParticipants[1].online;
-          isOnline ? Router.go("/instructions") : "";
+          const isStart =
+            arrayParticipants[0].start && arrayParticipants[1].start;
+          if (isOnline && !isStart) {
+            Router.go("/instructions");
+          }
         }
         this.roomId = currentState.roomId || "";
         this.render();

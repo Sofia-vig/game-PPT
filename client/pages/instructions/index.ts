@@ -7,7 +7,7 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       this.render();
-      const button = this.querySelector("button-component");
+      const button = this.querySelector(".button-instructions");
       button.addEventListener("click", () => {
         const currentState = state.getState();
         currentState.currentGame[currentState.userId].start = true;
@@ -32,7 +32,7 @@ customElements.define(
             Presioná jugar
             y elegí: piedra, papel o tijera antes de que pasen los 3 segundos.
         </text-component>
-        <button-component value="Jugar!"></button-component>
+        <button-component value="Jugar!" class="button-instructions"></button-component>
         <section class="container-hand"> 
               <hand-component jugada="tijera"></hand-component>
               <hand-component jugada="piedra"></hand-component>

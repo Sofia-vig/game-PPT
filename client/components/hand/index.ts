@@ -15,7 +15,7 @@ customElements.define(
         this.jugada = jugadaAttribute;
       }
       this.size = this.getAttribute("size");
-      this.play = this.getAttribute("play");
+      this.play = this.getAttribute("play") || "";
 
       this.render();
     }
@@ -43,7 +43,9 @@ customElements.define(
       this.appendChild(style);
       const img = document.createElement("img");
       img.classList.add(this.jugada);
-      img.classList.add(this.play);
+      if (this.play) {
+        img.classList.add(this.play);
+      }
       img.setAttribute("name", this.jugada);
 
       img.src =

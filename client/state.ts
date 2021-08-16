@@ -12,25 +12,28 @@ const state = {
     otherMove: "",
   },
   listeners: [],
+  init() {
+    const lastStorage = localStorage.getItem("state");
+  },
   listenRoom() {
-    const cs = this.getState();
-    const roomRef = rtdb.ref("/rooms/" + cs.rtdbRoomId);
+    const currentState = this.getState();
+    const roomRef = rtdb.ref("/rooms/" + currentState.rtdbRoomId);
     roomRef.on("value", (snap) => {
+      const cs = this.getState();
       const data = snap.val();
       cs.currentGame = data.currentGame;
+      for (var key in cs.currentGame) {
+        if (key != cs.userId) {
+          cs.otherMove = cs.currentGame[key].choice || "";
+        } else {
+          cs.myMove = cs.currentGame[cs.userId].choice;
+        }
+      }
       this.setState(cs);
     });
   },
   getState() {
     return this.data;
-  },
-  setOtherMove() {
-    const cs = state.getState();
-    for (var key in cs.currentGame) {
-      if (key != cs.userId) {
-        cs.otherMove = cs.currentGame[key].choice || "";
-      }
-    }
   },
   setMove(move: string) {
     const cs = this.getState();
@@ -53,7 +56,7 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
       });
   },
   setMyName(name: string) {
@@ -76,7 +79,6 @@ const state = {
       console.error("No ingresaste un name");
     }
   },
-
   addParticipant(callback?) {
     const cs = this.getState();
     fetch("/rooms/participant/" + cs.rtdbRoomId, {
@@ -88,7 +90,7 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (callback) {
           callback();
         }
@@ -121,7 +123,7 @@ const state = {
   whoWins() {
     const cs = this.getState();
     const myPlay = cs.myMove;
-    const otherPlay = cs.otherMove;
+    const otherPlay = cs.otherMove || "";
 
     const youTijera = myPlay == "tijera" && otherPlay == "papel";
     const youPiedra = myPlay == "piedra" && otherPlay == "tijera";
@@ -159,7 +161,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    // localStorage.setItem("history", JSON.stringify(newState.history));
+    localStorage.setItem("state", JSON.stringify(newState));
     console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {

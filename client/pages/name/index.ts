@@ -9,7 +9,7 @@ customElements.define(
     }
     connectedCallback() {
       this.render();
-      const form = this.querySelector("form-component");
+      const form = this.querySelector(".form-name");
       form.addEventListener("submit", (e: any) => {
         e.preventDefault();
         const nombre = e.target.name.value;
@@ -37,7 +37,7 @@ customElements.define(
       this.innerHTML = `
         <section class="content-home">
           <text-component tag="h1">Piedra Papel o Tijera</text-component> 
-          <form-component value="Empezar" label="Tu nombre" name="name"></form-component> 
+          <form-component value="Empezar" label="Tu nombre" name="name" class="form-name"></form-component> 
           <div class="container-hand"> 
               <hand-component jugada="tijera"></hand-component>
               <hand-component jugada="piedra"></hand-component>

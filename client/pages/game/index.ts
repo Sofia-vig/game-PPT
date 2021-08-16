@@ -5,37 +5,45 @@ customElements.define(
   "game-page",
   class extends HTMLElement {
     myPlay: string;
+    otherPlay: string;
     connectedCallback() {
       this.render();
-      const containerHands = this.querySelectorAll(".container-hand");
-      for (const hand of containerHands) {
-        hand.addEventListener("click", (e: any) => {
-          e.preventDefault();
-          this.myPlay = e.target.name;
-          state.setMove(this.myPlay || "");
-        });
-      }
+      const tijera = this.querySelector(".hand__tijera");
+      const papel = this.querySelector(".hand__papel");
+      const piedra = this.querySelector(".hand__piedra");
+
+      tijera.addEventListener("click", (e: any) => {
+        this.myPlay = e.target.name;
+        state.setMove(this.myPlay);
+      });
+      papel.addEventListener("click", (e: any) => {
+        this.myPlay = e.target.name;
+        state.setMove(this.myPlay);
+      });
+      piedra.addEventListener("click", (e: any) => {
+        this.myPlay = e.target.name;
+        state.setMove(this.myPlay);
+      });
       setTimeout(() => {
-        state.setOtherMove();
+        const cs = state.getState();
+        this.otherPlay = cs.otherMove;
+        console.log(this.myPlay, this.otherPlay);
+
         this.hands();
-      }, 4000);
+      }, 8000);
     }
     hands() {
-      const currentState = state.getState();
-      if (currentState.myMove == "" || currentState.otherMove == "") {
-        Router.go("/instructions");
-      } else {
-        this.innerHTML = ``;
-        const style = document.createElement("style");
-        style.innerHTML = `
+      this.innerHTML = ``;
+      const style = document.createElement("style");
+      style.innerHTML = `
         *{
-          overflow-x:hidden; 
+          overflow-x:hidden;
           overflow-y:hidden;
         }
        .container-myplay{
           margin: 0 auto;
           text-align:center;
-          margin-top:${currentState.myMove == "papel" ? "70px" : "50px"};
+          margin-top:${this.myPlay == "papel" ? "70px" : "50px"};
         }
         .container-otherplay{
           margin: 0 auto;
@@ -43,19 +51,15 @@ customElements.define(
           margin-bottom:50px;
         }
         `;
-        this.innerHTML = `
+      this.innerHTML = `
         <div class="container-otherplay">
-          <hand-component jugada=${currentState.otherMove} size="big-big" play="other" class="${currentState.otherMove}"></hand-component>
+          <hand-component jugada=${this.otherPlay} size="big-big" play="other" class="${this.otherPlay}"></hand-component>
         </div>
         <div class="container-myplay">
-          <hand-component jugada=${currentState.myMove} size="big-big" play="myplay" class="${currentState.myMove}"></hand-component>
+          <hand-component jugada=${this.myPlay} size="big-big" play="myplay" class="${this.myPlay}"></hand-component>
         </div>
           `;
-        this.appendChild(style);
-        setTimeout(() => {
-          Router.go("/result");
-        }, 9000);
-      }
+      this.appendChild(style);
     }
     render() {
       this.innerHTML = `
