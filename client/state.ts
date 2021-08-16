@@ -1,3 +1,4 @@
+import { disposeEmitNodes } from "typescript";
 import { rtdb } from "./db";
 
 const state = {
@@ -17,34 +18,14 @@ const state = {
   reset() {
     const cs = state.getState();
     const keysCG = Object.keys(cs.currentGame);
-    cs.currentGame[keysCG[0]].start = false;
-    cs.currentGame[keysCG[0]].choice = "";
-    cs.currentGame[keysCG[1]].start = false;
-    cs.currentGame[keysCG[1]].choice = "";
+    keysCG.forEach((key) => {
+      cs.currentGame[key].start = false;
+      cs.currentGame[key].choice = "";
+    });
+
     state.setState(cs);
     return state.updateDataRoom();
   },
-  // init() {
-  //   const lastStorage = JSON.parse(localStorage.getItem("history")) || [];
-  //   const cs = this.getState();
-  //   cs.history = lastStorage;
-  //   this.setState(cs);
-  // },
-  // getScore() {
-  //   const cs = this.getState();
-  //   const history = cs.history;
-  //   var you = 0;
-  //   var other = 0;
-  //   history.forEach(() => {
-  //     const result = this.whoWins();
-  //     if (result == "other") {
-  //       other++;
-  //     } else if (result == "you") {
-  //       you++;
-  //     }
-  //   });
-  //   return { other, you };
-  // },
   listenRoom() {
     const currentState = this.getState();
     const roomRef = rtdb.ref("/rooms/" + currentState.rtdbRoomId);
@@ -60,7 +41,6 @@ const state = {
           cs.myMove = cs.currentGame[cs.userId].choice;
         }
       }
-      // this.pushToHistory();
       this.setState(cs);
     });
   },
@@ -118,7 +98,11 @@ const state = {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ userId: cs.userId, name: cs.name }),
+      body: JSON.stringify({
+        userId: cs.userId,
+        name: cs.name,
+        roomId: cs.roomId,
+      }),
     })
       .then((res) => res.json())
       .then((data) => {
@@ -186,6 +170,9 @@ const state = {
         cs.rtdbRoomId = data.rtdbRoomId;
         this.setState(cs);
         this.listenRoom();
+      })
+      .catch((err) => {
+        console.error({ error: "Ya hay dos jugadores en el room" });
       });
   },
   setState(newState) {

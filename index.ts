@@ -65,6 +65,7 @@ app.post("/rooms", (req, res) => {
             roomsCollection
               .doc(roomId.toString())
               .set({
+                owner: userId,
                 rtdbRoomId: roomLongId,
               })
               .then(() => {
@@ -90,13 +91,15 @@ app.get("/rooms/:roomId", (req, res) => {
     .get()
     .then((doc) => {
       if (doc.exists) {
-        roomsCollection
-          .doc(roomId.toString())
-          .get()
-          .then((snap) => {
-            const data = snap.data();
+        const room = roomsCollection.doc(roomId.toString()).get();
+        room.then((snap) => {
+          const data = snap.data();
+          if (data.participant) {
+            throw new Error();
+          } else {
             res.json(data);
-          });
+          }
+        });
       } else {
         res.status(401).json({
           message: "no esistis",
@@ -105,10 +108,32 @@ app.get("/rooms/:roomId", (req, res) => {
     });
 });
 
+//Agrega un participante al room
+app.post("/rooms/participant/:rtdbId", (req, res) => {
+  const { userId, name, roomId } = req.body;
+  const { rtdbId } = req.params;
+  const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
+  roomRef.once("value", (snap) => {
+    if (Object.keys(snap.val()).length == 2) {
+      throw new Error();
+    } else {
+      const room = roomsCollection.doc(roomId.toString());
+      room.update({
+        participant: userId,
+      });
+      roomRef
+        .update({ [userId]: { name, choice: "", online: true, start: false } })
+        .then(() => {
+          res.json({ ok: true });
+        });
+    }
+  });
+});
+
 //Actualiza datos del roomId
 app.post("/rooms/:rtdbId", (req, res) => {
   const game = req.body.currentGame;
-  const userId = req.body.userId;
+  const { userId } = req.body;
   const { rtdbId } = req.params;
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
@@ -120,18 +145,5 @@ app.post("/rooms/:rtdbId", (req, res) => {
     })
     .then(() => {
       res.json({ update: true });
-    });
-});
-
-//Agrega un participante al room
-app.post("/rooms/participant/:rtdbId", (req, res) => {
-  const { userId, name } = req.body;
-  const { rtdbId } = req.params;
-
-  const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
-  roomRef
-    .update({ [userId]: { name, choice: "", online: true, start: false } })
-    .then(() => {
-      res.json({ ok: true });
     });
 });

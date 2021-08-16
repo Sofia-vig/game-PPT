@@ -13,7 +13,7 @@ customElements.define(
       this.innerHTML = `
       <form class="form">
         <label class="form__label">${this.label}</label>
-        <input type="text" class="form__input" name="${this.name}" placeholder="${this.placeholder}"/>
+        <input type="text" class="form__input" name="${this.name}" placeholder="${this.placeholder}" required/>
         <input type="submit" class="form__button" value="${this.value}"/>
       </form>  
         `;

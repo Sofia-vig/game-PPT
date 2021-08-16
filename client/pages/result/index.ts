@@ -11,7 +11,6 @@ customElements.define(
     score: any = { you: 1, other: 4 };
     connectedCallback() {
       this.whoWins = state.whoWins();
-      // this.score = state.getScore();
       this.render();
       const button = this.querySelector("button-component");
       button.addEventListener("click", () => {
