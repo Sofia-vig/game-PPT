@@ -9,3 +9,10 @@ import "./components/resultado";
 import "./components/text";
 import "./components/form";
 import "./components/header";
+
+import { state } from "./state";
+
+(function () {
+  state.init();
+  state.getScore();
+})();

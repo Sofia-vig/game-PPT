@@ -11,10 +11,41 @@ const state = {
     roomChoice: "",
     myMove: "",
     otherMove: "",
+    history: [],
   },
   listeners: [],
+  pushToHistory() {
+    const currentState = this.getState();
+    const moves = {
+      myMove: currentState.myMove,
+      otherMove: currentState.otherMove,
+    };
+    if (moves.myMove != "" && moves.otherMove != "") {
+      currentState.history.push(moves);
+      localStorage.setItem("history", JSON.stringify(currentState.history));
+      this.setState(currentState);
+    }
+  },
   init() {
-    const lastStorage = localStorage.getItem("state");
+    const lastStorage = JSON.parse(localStorage.getItem("history")) || [];
+    const cs = this.getState();
+    cs.history = lastStorage;
+    this.setState(cs);
+  },
+  getScore() {
+    const cs = this.getState();
+    const history = cs.history;
+    var you = 0;
+    var other = 0;
+    history.forEach((move) => {
+      const result = this.whoWins();
+      if (result == "other") {
+        other++;
+      } else if (result == "you") {
+        you++;
+      }
+    });
+    return { other, you };
   },
   listenRoom() {
     const currentState = this.getState();
@@ -31,6 +62,7 @@ const state = {
           cs.myMove = cs.currentGame[cs.userId].choice;
         }
       }
+      this.pushToHistory();
       this.setState(cs);
     });
   },
@@ -163,8 +195,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    localStorage.setItem("state", JSON.stringify(newState));
-    // console.log("El state cambio: ", this.data);
+    console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
     this.listeners.push(callback);

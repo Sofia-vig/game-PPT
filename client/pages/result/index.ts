@@ -7,8 +7,10 @@ customElements.define(
   "result-page",
   class extends HTMLElement {
     whoWins: string;
+    score: any;
     connectedCallback() {
       this.whoWins = state.whoWins();
+      this.score = state.getScore();
       this.render();
     }
     render() {
@@ -53,8 +55,8 @@ customElements.define(
         <result-component who="${this.whoWins}"></result-component>
         <div class="score">
         <h2 class="title">Score</h2>
-        <h3 class="subtitle you">Vos:${""}</h3>
-        <h3 class="subtitle computer">Computadora:${""}</h3>
+        <h3 class="subtitle you">Vos:${this.score.you}</h3>
+        <h3 class="subtitle computer">Computadora:${this.score.other}</h3>
         </div>
         <button-component value="Volver a jugar"></button-component>
     `;

@@ -4,7 +4,7 @@ import { Router } from "@vaadin/router";
 customElements.define(
   "game-page",
   class extends HTMLElement {
-    myPlay: string;
+    myPlay: string = "";
     otherPlay: string;
     connectedCallback() {
       this.render();
@@ -27,7 +27,11 @@ customElements.define(
       setTimeout(() => {
         const cs = state.getState();
         this.otherPlay = cs.otherMove;
-        this.hands();
+        if (this.otherPlay == "" || this.myPlay == "") {
+          Router.go("/instructions");
+        } else {
+          this.hands();
+        }
       }, 3600);
     }
     hands() {
@@ -58,6 +62,9 @@ customElements.define(
         </div>
           `;
       this.appendChild(style);
+      setTimeout(() => {
+        Router.go("/result");
+      }, 2000);
     }
     render() {
       this.innerHTML = `
