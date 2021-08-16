@@ -5,11 +5,11 @@ import { Router } from "@vaadin/router";
 customElements.define(
   "waiting-page",
   class extends HTMLElement {
-    otherName: string = "nose";
+    otherName: string;
     connectedCallback() {
-      this.render();
       state.subscribe(() => {
         const currentState = state.getState();
+        this.otherName = currentState.otherName || "";
         const arrayParticipants = map(currentState.currentGame);
         if (arrayParticipants.length == 2) {
           const isStart =
@@ -17,6 +17,9 @@ customElements.define(
           isStart ? Router.go("/game") : "";
         }
       });
+      const currentState = state.getState();
+      this.otherName = currentState.otherName || "";
+      this.render();
     }
     render() {
       this.innerHTML = `

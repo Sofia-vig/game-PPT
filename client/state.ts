@@ -4,6 +4,7 @@ const state = {
   data: {
     currentGame: "",
     name: "",
+    otherName: "",
     userId: "",
     roomId: "",
     rtdbRoomId: "",
@@ -24,6 +25,7 @@ const state = {
       cs.currentGame = data.currentGame;
       for (var key in cs.currentGame) {
         if (key != cs.userId) {
+          cs.otherName = cs.currentGame[key].name || "";
           cs.otherMove = cs.currentGame[key].choice || "";
         } else {
           cs.myMove = cs.currentGame[cs.userId].choice;
@@ -56,7 +58,7 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
       });
   },
   setMyName(name: string) {
@@ -86,11 +88,11 @@ const state = {
       headers: {
         "content-type": "application/json",
       },
-      body: JSON.stringify({ userId: cs.userId }),
+      body: JSON.stringify({ userId: cs.userId, name: cs.name }),
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        console.log(data);
         if (callback) {
           callback();
         }
@@ -104,7 +106,7 @@ const state = {
         headers: {
           "content-type": "application/json",
         },
-        body: JSON.stringify({ userId: cs.userId }),
+        body: JSON.stringify({ userId: cs.userId, name: cs.name }),
       })
         .then((res) => {
           return res.json();
@@ -162,7 +164,7 @@ const state = {
       cb();
     }
     localStorage.setItem("state", JSON.stringify(newState));
-    console.log("El state cambio: ", this.data);
+    // console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
     this.listeners.push(callback);

@@ -27,10 +27,8 @@ customElements.define(
       setTimeout(() => {
         const cs = state.getState();
         this.otherPlay = cs.otherMove;
-        console.log(this.myPlay, this.otherPlay);
-
         this.hands();
-      }, 8000);
+      }, 3600);
     }
     hands() {
       this.innerHTML = ``;

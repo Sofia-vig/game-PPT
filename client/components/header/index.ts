@@ -1,21 +1,22 @@
 import { state } from "../../state";
-import { map } from "lodash";
 
 customElements.define(
   "header-component",
   class extends HTMLElement {
     myName: string;
-    otherName: string = "nose";
+    otherName: string;
     roomShortId: string;
     connectedCallback() {
       state.subscribe(() => {
         const currentState = state.getState();
         this.myName = currentState.name;
+        this.otherName = currentState.otherName;
         this.roomShortId = currentState.roomId || "ningun codigo";
         this.render();
       });
       const currentState = state.getState();
       this.myName = currentState.name;
+      this.otherName = currentState.otherName || "";
       this.roomShortId = currentState.roomId || "ningun codigo";
       this.render();
     }

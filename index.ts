@@ -40,7 +40,7 @@ app.post("/signup", (req, res) => {
 
 //Crea un room
 app.post("/rooms", (req, res) => {
-  const { userId } = req.body;
+  const { userId, name } = req.body;
   userCollection
     .doc(userId.toString())
     .get()
@@ -51,6 +51,7 @@ app.post("/rooms", (req, res) => {
           .set({
             currentGame: {
               [userId]: {
+                name,
                 choice: "",
                 online: true,
                 start: false,
@@ -124,12 +125,12 @@ app.post("/rooms/:rtdbId", (req, res) => {
 
 //Agrega un participante al room
 app.post("/rooms/participant/:rtdbId", (req, res) => {
-  const userId = req.body.userId;
+  const { userId, name } = req.body;
   const { rtdbId } = req.params;
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
   roomRef
-    .update({ [userId]: { choice: "", online: true, start: false } })
+    .update({ [userId]: { name, choice: "", online: true, start: false } })
     .then(() => {
       res.json({ ok: true });
     });
