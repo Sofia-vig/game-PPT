@@ -2,16 +2,23 @@ const backgroundWin = require("url:../../img/winBackground.png");
 const backgroundLose = require("url:../../img/loseBackground.png");
 
 import { state } from "../../state";
+import { Router } from "@vaadin/router";
 
 customElements.define(
   "result-page",
   class extends HTMLElement {
     whoWins: string;
-    score: any;
+    score: any = { you: 1, other: 4 };
     connectedCallback() {
       this.whoWins = state.whoWins();
-      this.score = state.getScore();
+      // this.score = state.getScore();
       this.render();
+      const button = this.querySelector("button-component");
+      button.addEventListener("click", () => {
+        state.reset().then(() => {
+          Router.go("/instructions");
+        });
+      });
     }
     render() {
       const style = document.createElement("style");
