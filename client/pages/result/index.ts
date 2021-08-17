@@ -8,9 +8,15 @@ customElements.define(
   "result-page",
   class extends HTMLElement {
     whoWins: string;
-    score: any = { you: 1, other: 4 };
+    score: any;
+    nameOther: string;
     connectedCallback() {
-      this.whoWins = state.whoWins();
+      const cs = state.getState();
+      this.nameOther = cs.otherName;
+      this.whoWins = state.whoWins(cs.myMove, cs.otherMove);
+      this.score = state.getScore();
+      console.log(this.score);
+
       this.render();
       const button = this.querySelector("button-component");
       button.addEventListener("click", () => {
@@ -62,7 +68,7 @@ customElements.define(
         <div class="score">
         <h2 class="title">Score</h2>
         <h3 class="subtitle you">Vos:${this.score.you}</h3>
-        <h3 class="subtitle computer">Computadora:${this.score.other}</h3>
+        <h3 class="subtitle computer">${this.nameOther}:${this.score.other}</h3>
         </div>
         <button-component value="Volver a jugar"></button-component>
     `;

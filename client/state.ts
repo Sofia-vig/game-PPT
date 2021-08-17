@@ -17,14 +17,16 @@ const state = {
   listeners: [],
   reset() {
     const cs = state.getState();
-    const keysCG = Object.keys(cs.currentGame);
-    keysCG.forEach((key) => {
-      cs.currentGame[key].start = false;
-      cs.currentGame[key].choice = "";
-    });
+    cs.currentGame[cs.userId].start = false;
+    cs.currentGame[cs.userId].choice = "";
 
     state.setState(cs);
     return state.updateDataRoom();
+  },
+  pushToHistory() {
+    const currentState = this.getState();
+    const moves = { you: currentState.myMove, other: currentState.otherMove };
+    currentState.history.push(moves);
   },
   listenRoom() {
     const currentState = this.getState();
@@ -136,10 +138,22 @@ const state = {
       console.error("no hay userId");
     }
   },
-  whoWins() {
+  getScore() {
     const cs = this.getState();
-    const myPlay = cs.myMove;
-    const otherPlay = cs.otherMove || "";
+    var you = 0;
+    var other = 0;
+    cs.history.forEach((m) => {
+      const win = this.whoWins(m.you, m.other);
+      if (win == "you") {
+        you++;
+      } else if (win == "other") {
+        other++;
+      }
+    });
+    return { you, other };
+  },
+  whoWins(myPlay: string, otherPlay: string) {
+    const cs = this.getState();
 
     const youTijera = myPlay == "tijera" && otherPlay == "papel";
     const youPiedra = myPlay == "piedra" && otherPlay == "tijera";
@@ -180,7 +194,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    console.log("El state cambio: ", this.data);
+    // console.log("El state cambio: ", this.data);
   },
   subscribe(callback: (any) => any) {
     this.listeners.push(callback);

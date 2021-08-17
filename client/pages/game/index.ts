@@ -29,8 +29,10 @@ customElements.define(
         this.otherPlay = cs.otherMove;
         if (this.otherPlay == "" || this.myPlay == "") {
           Router.go("/instructions");
+          state.reset();
         } else {
           this.hands();
+          state.pushToHistory();
         }
       }, 3600);
     }

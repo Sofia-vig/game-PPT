@@ -76,12 +76,13 @@ app.post("/rooms", (req, res) => {
           });
       } else {
         res.status(401).json({
-          message: "no esistis",
+          message: "no existis",
         });
       }
     });
 });
 
+//(Access to Room)
 //Devuelve el id de la rtdb
 app.get("/rooms/:roomId", (req, res) => {
   const { userId } = req.query;
@@ -102,7 +103,7 @@ app.get("/rooms/:roomId", (req, res) => {
         });
       } else {
         res.status(401).json({
-          message: "no esistis",
+          message: "no existis",
         });
       }
     });
