@@ -110,9 +110,9 @@ app.get("/rooms/:roomId", (req, res) => {
 });
 
 //Agrega un participante al room
-app.post("/rooms/participant/:rtdbId", (req, res) => {
+app.post("/rooms/participant", (req, res) => {
   const { userId, name, roomId } = req.body;
-  const { rtdbId } = req.params;
+  const { rtdbId } = req.body;
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
 
   roomsCollection.doc(roomId.toString()).update({
@@ -126,11 +126,12 @@ app.post("/rooms/participant/:rtdbId", (req, res) => {
     });
 });
 
+//No se como hacer un patch
 //Actualiza datos del roomId
-app.post("/rooms/:rtdbId", (req, res) => {
+app.post("/rooms/update", (req, res) => {
   const game = req.body.currentGame;
   const { userId } = req.body;
-  const { rtdbId } = req.params;
+  const { rtdbId } = req.body;
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef

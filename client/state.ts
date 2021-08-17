@@ -56,12 +56,13 @@ const state = {
   },
   updateDataRoom() {
     const cs = this.getState();
-    return fetch("/rooms/" + cs.rtdbRoomId, {
+    return fetch("/rooms/update", {
       method: "post",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
+        rtdbId: cs.rtdbRoomId,
         currentGame: cs.currentGame[cs.userId],
         userId: cs.userId,
       }),
@@ -99,7 +100,7 @@ const state = {
   },
   addParticipant(callback?) {
     const cs = this.getState();
-    fetch("/rooms/participant/" + cs.rtdbRoomId, {
+    fetch("/rooms/participant", {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -108,6 +109,7 @@ const state = {
         userId: cs.userId,
         name: cs.name,
         roomId: cs.roomId,
+        rtdbId: cs.rtdbRoomId,
       }),
     })
       .then((res) => res.json())
