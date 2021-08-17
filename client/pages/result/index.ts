@@ -15,8 +15,6 @@ customElements.define(
       this.nameOther = cs.otherName;
       this.whoWins = state.whoWins(cs.myMove, cs.otherMove);
       this.score = state.getScore();
-      console.log(this.score);
-
       this.render();
       const button = this.querySelector("button-component");
       button.addEventListener("click", () => {

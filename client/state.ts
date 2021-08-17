@@ -1,4 +1,3 @@
-import { disposeEmitNodes } from "typescript";
 import { rtdb } from "./db";
 
 const state = {
@@ -19,7 +18,6 @@ const state = {
     const cs = state.getState();
     cs.currentGame[cs.userId].start = false;
     cs.currentGame[cs.userId].choice = "";
-
     state.setState(cs);
     return state.updateDataRoom();
   },
@@ -108,7 +106,7 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         if (callback) {
           callback();
         }
