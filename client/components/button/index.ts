@@ -24,6 +24,7 @@ customElements.define(
           font-size:45px;
           color: var(--color-value-button);
           font-family: 'Odibee Sans', cursive;
+          cursor:pointer;
       }
       
       `;

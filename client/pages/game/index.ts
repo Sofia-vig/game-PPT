@@ -8,22 +8,18 @@ customElements.define(
     otherPlay: string;
     connectedCallback() {
       this.render();
-      const tijera = this.querySelector(".hand__tijera");
-      const papel = this.querySelector(".hand__papel");
-      const piedra = this.querySelector(".hand__piedra");
 
-      tijera.addEventListener("click", (e: any) => {
-        this.myPlay = e.target.name;
-        state.setMove(this.myPlay);
+      const handsElement =
+        this.querySelector(".container-hand").querySelectorAll(
+          "hand-component"
+        );
+      handsElement.forEach((hand) => {
+        hand.addEventListener("click", (e: any) => {
+          this.myPlay = e.target.name;
+          state.setMove(this.myPlay);
+        });
       });
-      papel.addEventListener("click", (e: any) => {
-        this.myPlay = e.target.name;
-        state.setMove(this.myPlay);
-      });
-      piedra.addEventListener("click", (e: any) => {
-        this.myPlay = e.target.name;
-        state.setMove(this.myPlay);
-      });
+
       setTimeout(() => {
         const cs = state.getState();
         this.otherPlay = cs.otherMove;
@@ -96,7 +92,7 @@ customElements.define(
             margin: 0 auto;
         }
       }
-        
+      
         `;
       this.appendChild(style);
     }

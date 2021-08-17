@@ -1,3 +1,5 @@
+import { state } from "../../state";
+
 const papel = require("url:../../img/papel.png");
 const piedra = require("url:../../img/piedra.png");
 const tijera = require("url:../../img/tijera.png");
@@ -29,13 +31,14 @@ customElements.define(
         .other{
           transform: rotate(180deg);
         }
-        `;
+      `;
       } else if (this.size == "big") {
         style.innerHTML = `
         .${this.jugada}{
           width:100px;
           position:absolute;
           bottom:0;
+          cursor:pointer;
         }
         `;
       }
@@ -43,6 +46,7 @@ customElements.define(
       this.appendChild(style);
       const img = document.createElement("img");
       img.classList.add(this.jugada);
+
       if (this.play) {
         img.classList.add(this.play);
       }

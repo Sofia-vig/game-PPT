@@ -65,7 +65,6 @@ app.post("/rooms", (req, res) => {
             roomsCollection
               .doc(roomId.toString())
               .set({
-                owner: userId,
                 rtdbRoomId: roomLongId,
               })
               .then(() => {
@@ -95,11 +94,7 @@ app.get("/rooms/:roomId", (req, res) => {
         const room = roomsCollection.doc(roomId.toString()).get();
         room.then((snap) => {
           const data = snap.data();
-          if (data.participant) {
-            throw new Error();
-          } else {
-            res.json(data);
-          }
+          res.json(data);
         });
       } else {
         res.status(401).json({
@@ -114,21 +109,11 @@ app.post("/rooms/participant/:rtdbId", (req, res) => {
   const { userId, name, roomId } = req.body;
   const { rtdbId } = req.params;
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
-  roomRef.once("value", (snap) => {
-    if (Object.keys(snap.val()).length == 2) {
-      throw new Error();
-    } else {
-      const room = roomsCollection.doc(roomId.toString());
-      room.update({
-        participant: userId,
-      });
-      roomRef
-        .update({ [userId]: { name, choice: "", online: true, start: false } })
-        .then(() => {
-          res.json({ ok: true });
-        });
-    }
-  });
+  roomRef
+    .update({ [userId]: { name, choice: "", online: true, start: false } })
+    .then(() => {
+      res.json({ ok: true });
+    });
 });
 
 //Actualiza datos del roomId
