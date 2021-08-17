@@ -110,10 +110,9 @@ app.get("/rooms/:roomId", (req, res) => {
 });
 
 //Agrega un participante al room
-app.post("/rooms/participant/:rtdbId", (req, res) => {
-  const { userId, name, roomId } = req.body;
-  const { rtdbId } = req.params;
-  const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
+app.post("/rooms/participant", (req, res) => {
+  const { userId, name, roomId, rtdbRoomId } = req.body;
+  const roomRef = rtdb.ref(`rooms/${rtdbRoomId}/currentGame/`);
 
   roomsCollection.doc(roomId.toString()).update({
     player: userId,
@@ -127,10 +126,9 @@ app.post("/rooms/participant/:rtdbId", (req, res) => {
 });
 
 //Actualiza datos del roomId
-app.post("/rooms/:rtdbId", (req, res) => {
+app.post("/rooms", (req, res) => {
   const game = req.body.currentGame;
-  const { userId } = req.body;
-  const { rtdbId } = req.params;
+  const { userId, rtdbId } = req.body;
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef
