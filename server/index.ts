@@ -6,7 +6,7 @@ import * as express from "express";
 
 const app = express();
 app.use(express.json());
-const port = process.env.PORT || 3003;
+const port = process.env.PORT || 3005;
 
 app.use(express.static("dist"));
 
@@ -110,9 +110,10 @@ app.get("/rooms/:roomId", (req, res) => {
 });
 
 //Agrega un participante al room
-app.post("/rooms/participant", (req, res) => {
-  const { userId, name, roomId, rtdbRoomId } = req.body;
-  const roomRef = rtdb.ref(`rooms/${rtdbRoomId}/currentGame/`);
+app.post("/rooms/participant/:rtdbId", (req, res) => {
+  const { userId, name, roomId } = req.body;
+  const { rtdbId } = req.params;
+  const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
 
   roomsCollection.doc(roomId.toString()).update({
     player: userId,
@@ -126,9 +127,10 @@ app.post("/rooms/participant", (req, res) => {
 });
 
 //Actualiza datos del roomId
-app.post("/rooms", (req, res) => {
+app.post("/rooms/:rtdbId", (req, res) => {
   const game = req.body.currentGame;
-  const { userId, rtdbId } = req.body;
+  const { userId } = req.body;
+  const { rtdbId } = req.params;
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef

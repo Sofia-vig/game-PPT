@@ -56,20 +56,22 @@ const state = {
   },
   updateDataRoom() {
     const cs = this.getState();
-    return fetch("/rooms/", {
+    return fetch("/rooms/" + cs.rtdbRoomId, {
       method: "post",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        rtdbId: cs.rtdbRoomId,
         currentGame: cs.currentGame[cs.userId],
         userId: cs.userId,
       }),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   },
   setMyName(name: string) {
@@ -87,6 +89,9 @@ const state = {
         .then((data) => {
           cs.userId = data.id;
           this.setState(cs);
+        })
+        .catch((err) => {
+          console.log(err);
         });
     } else {
       console.error("No ingresaste un name");
@@ -94,13 +99,12 @@ const state = {
   },
   addParticipant(callback?) {
     const cs = this.getState();
-    fetch("/rooms/participant", {
+    fetch("/rooms/participant/" + cs.rtdbRoomId, {
       method: "post",
       headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
-        rtdbRoomId: cs.rtdbRoomId,
         userId: cs.userId,
         name: cs.name,
         roomId: cs.roomId,
@@ -112,6 +116,9 @@ const state = {
         if (callback) {
           callback();
         }
+      })
+      .catch((err) => {
+        console.log(err);
       });
   },
   askNewRoom(callback?) {
@@ -133,6 +140,9 @@ const state = {
           if (callback) {
             callback();
           }
+        })
+        .catch((err) => {
+          console.log(err);
         });
     } else {
       console.error("no hay userId");
