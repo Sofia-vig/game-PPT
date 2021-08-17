@@ -65,6 +65,7 @@ app.post("/rooms", (req, res) => {
             roomsCollection
               .doc(roomId.toString())
               .set({
+                owner: userId,
                 rtdbRoomId: roomLongId,
               })
               .then(() => {
@@ -94,7 +95,11 @@ app.get("/rooms/:roomId", (req, res) => {
         const room = roomsCollection.doc(roomId.toString()).get();
         room.then((snap) => {
           const data = snap.data();
-          res.json(data);
+          if (data.player) {
+            res.status(400);
+          } else {
+            res.json(data);
+          }
         });
       } else {
         res.status(401).json({
@@ -109,6 +114,11 @@ app.post("/rooms/participant/:rtdbId", (req, res) => {
   const { userId, name, roomId } = req.body;
   const { rtdbId } = req.params;
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
+
+  roomsCollection.doc(roomId.toString()).update({
+    player: userId,
+  });
+
   roomRef
     .update({ [userId]: { name, choice: "", online: true, start: false } })
     .then(() => {

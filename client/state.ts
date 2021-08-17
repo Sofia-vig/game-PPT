@@ -181,12 +181,13 @@ const state = {
         return res.json();
       })
       .then((data) => {
-        cs.rtdbRoomId = data.rtdbRoomId;
-        this.setState(cs);
-        this.listenRoom();
-      })
-      .catch((err) => {
-        console.error({ error: "Ya hay dos jugadores en el room" });
+        if (data.rtdbRoomId) {
+          cs.rtdbRoomId = data.rtdbRoomId;
+          this.setState(cs);
+          this.listenRoom();
+        } else {
+          console.error("El room está lleno");
+        }
       });
   },
   setState(newState) {
