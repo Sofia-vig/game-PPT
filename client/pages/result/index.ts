@@ -16,11 +16,13 @@ customElements.define(
       this.whoWins = state.whoWins(cs.myMove, cs.otherMove);
       this.score = state.getScore();
       this.render();
-      const button = this.querySelector("button-component");
+      const button = document.querySelector("button-component");
+
       button.addEventListener("click", () => {
-        //A veces se bugea , y resetea a los dos juntos, no se porque pasa
-        //Cuando pasa esto la persona que entro como segundo jugador empieza a manejar todo
-        //No se como solucionarlo
+        //Se buguea pero no se como solucionarlo
+        //Si elige volver a jugar el que creo la room todo bien
+        //Pero si elige volver a jugar el q entra despues empieza a manejarle la pantalla al otro(?)
+        //Pero si nadie creo el room y solo entraron los dos a una partida pasada anda joya
         state.reset().then(() => {
           Router.go("/instructions");
         });

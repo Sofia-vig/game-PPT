@@ -24,11 +24,10 @@ customElements.define(
         const cs = state.getState();
         this.otherPlay = cs.otherMove;
         if (this.otherPlay == "" || this.myPlay == "") {
-          Router.go("/instructions");
           state.reset();
+          Router.go("/instructions");
         } else {
           this.hands();
-          state.pushToHistory();
         }
       }, 3600);
     }
@@ -61,8 +60,9 @@ customElements.define(
           `;
       this.appendChild(style);
       setTimeout(() => {
+        state.pushToHistory();
         Router.go("/result");
-      }, 2000);
+      }, 3000);
     }
     render() {
       this.innerHTML = `

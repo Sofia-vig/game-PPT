@@ -22,8 +22,14 @@ const state = {
     const cs = state.getState();
     cs.currentGame[cs.userId].start = false;
     cs.currentGame[cs.userId].choice = "";
-    state.setState(cs);
+    // for (const key in cs.currentGame) {
+    //   cs.currentGame[key].start = false;
+    //   cs.currentGame[key].choice = "";
+    // }
+
     return state.updateDataRoom();
+
+    state.setState(cs);
   },
 
   //Pushea jugadas a history
@@ -89,7 +95,7 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        // console.log("update", data);
       });
   },
 
@@ -136,8 +142,6 @@ const state = {
       .then((res) => res.json())
       .then((data) => {
         if (data != "") {
-          console.log(data);
-
           cs.history = data;
           this.setState(cs);
         }
@@ -184,6 +188,7 @@ const state = {
     const cs = this.getState();
     var you = 0;
     var other = 0;
+
     cs.history.forEach((m) => {
       for (const key in m) {
         if (key == cs.userId) {
@@ -251,6 +256,7 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
+    // console.log("state", this.data);
   },
 
   //Avisa a los componentes/paginas los cambios del estado
