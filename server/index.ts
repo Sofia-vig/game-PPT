@@ -129,11 +129,15 @@ app.post("/rooms/participants", (req, res) => {
     });
 });
 
-//Actualiza datos del roomId
+//Actualiza datos del room
 app.put("/rooms/:rtdbId", (req, res) => {
+  const { userId, roomId, history } = req.body;
   const game = req.body.currentGame;
-  const { userId } = req.body;
   const { rtdbId } = req.params;
+
+  roomsCollection.doc(roomId.toString()).update({
+    history: history,
+  });
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef

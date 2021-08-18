@@ -75,6 +75,8 @@ const state = {
         "content-type": "application/json",
       },
       body: JSON.stringify({
+        history: cs.history,
+        roomId: cs.roomId,
         currentGame: cs.currentGame[cs.userId],
         userId: cs.userId,
       }),
