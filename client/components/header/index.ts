@@ -6,15 +6,18 @@ customElements.define(
     myName: string;
     otherName: string;
     roomShortId: string;
+    score: { you: number; other: number };
     connectedCallback() {
       state.subscribe(() => {
         const currentState = state.getState();
+        this.score = state.getScore();
         this.myName = currentState.name;
         this.otherName = currentState.otherName;
         this.roomShortId = currentState.roomId || "ningun codigo";
         this.render();
       });
       const currentState = state.getState();
+      this.score = state.getScore();
       this.myName = currentState.name;
       this.otherName = currentState.otherName || "";
       this.roomShortId = currentState.roomId || "ningun codigo";
@@ -24,8 +27,10 @@ customElements.define(
       this.innerHTML = `
             <header class="header">
                 <div class="names">
-                    <p>${this.myName} : 0 </p>
-                    <p class="red">${this.otherName} : 0</p>
+                    <p>${this.myName} : ${this.score.you || 0}  </p>
+                    <p class="red">${this.otherName || "Player2"} : ${
+        this.score.other || 0
+      }</p>
                 </div>
                 <div class="code">
                     <p class="title">Sala</p>

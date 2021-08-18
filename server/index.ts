@@ -109,8 +109,10 @@ app.get("/rooms/:roomId", (req, res) => {
     });
 });
 
+//Estos dos deberian ir juntos pero no me funca
+
 //Agrega un participante al room
-app.post("/rooms/participant", (req, res) => {
+app.post("/rooms/participants", (req, res) => {
   const { userId, name, roomId } = req.body;
   const { rtdbId } = req.body;
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
@@ -128,10 +130,10 @@ app.post("/rooms/participant", (req, res) => {
 
 //No se como hacer un patch
 //Actualiza datos del roomId
-app.post("/rooms/update", (req, res) => {
+app.put("/rooms/:rtdbId", (req, res) => {
   const game = req.body.currentGame;
   const { userId } = req.body;
-  const { rtdbId } = req.body;
+  const { rtdbId } = req.params;
 
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/${userId}`);
   roomRef
