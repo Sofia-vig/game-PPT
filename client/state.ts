@@ -22,14 +22,9 @@ const state = {
     const cs = state.getState();
     cs.currentGame[cs.userId].start = false;
     cs.currentGame[cs.userId].choice = "";
-    // for (const key in cs.currentGame) {
-    //   cs.currentGame[key].start = false;
-    //   cs.currentGame[key].choice = "";
-    // }
-
-    return state.updateDataRoom();
 
     state.setState(cs);
+    return state.updateDataRoom();
   },
 
   //Pushea jugadas a history

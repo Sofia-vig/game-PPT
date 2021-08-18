@@ -7,7 +7,6 @@ customElements.define(
   class extends HTMLElement {
     connectedCallback() {
       this.render();
-      console.log(state.getState().currentGame);
       const button = this.querySelector(".button-instructions");
       button.addEventListener("click", () => {
         const currentState = state.getState();
