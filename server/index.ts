@@ -2,10 +2,13 @@ import { firestore, rtdb } from "./db";
 
 import { nanoid } from "nanoid";
 
+import * as cors from "cors";
+
 import * as express from "express";
 
 const app = express();
 app.use(express.json());
+app.use(cors());
 const port = process.env.PORT || 3005;
 
 app.use(express.static("dist"));
