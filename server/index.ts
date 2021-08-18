@@ -114,8 +114,7 @@ app.get("/rooms/:roomId", (req, res) => {
 //Estos dos deberian ir juntos pero no me funca
 //Agrega un participante al room
 app.post("/rooms/participants", (req, res) => {
-  const { userId, name, roomId } = req.body;
-  const { rtdbId } = req.body;
+  const { userId, name, roomId, rtdbId } = req.body;
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
 
   roomsCollection.doc(roomId.toString()).update({
