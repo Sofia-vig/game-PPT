@@ -17,9 +17,14 @@ customElements.define(
         if (currentState.roomId) {
           state.setMyName(nombre).then(() => {
             state.accessToRoom().then(() => {
-              state.addParticipant(() => {
-                Router.go("/instructions");
-              });
+              const cs = state.getState();
+              if (cs.error) {
+                Router.go("/error");
+              } else {
+                state.addParticipant(() => {
+                  Router.go("/instructions");
+                });
+              }
             });
           });
         } else {

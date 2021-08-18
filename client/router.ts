@@ -9,6 +9,7 @@ import "./pages/instructions";
 import "./pages/waiting";
 import "./pages/game";
 import "./pages/result";
+import "./pages/error";
 
 const router = new Router(document.querySelector(".root"));
 router.setRoutes([
@@ -24,4 +25,5 @@ router.setRoutes([
   { path: "/waiting", component: "waiting-page" },
   { path: "/game", component: "game-page" },
   { path: "/result", component: "result-page" },
+  { path: "/error", component: "error-page" },
 ]);

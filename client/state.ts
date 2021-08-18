@@ -11,6 +11,7 @@ const state = {
     roomChoice: "",
     myMove: "",
     otherMove: "",
+    error: "",
     history: [],
   },
   listeners: [],
@@ -81,9 +82,6 @@ const state = {
       .then((res) => res.json())
       .then((data) => {
         // console.log(data);
-      })
-      .catch((err) => {
-        console.log(err);
       });
   },
 
@@ -222,6 +220,9 @@ const state = {
           this.listenRoom();
         } else {
           console.error("El room está lleno");
+          const cs = this.getState();
+          cs.error = "room";
+          this.setState(cs);
         }
       });
   },

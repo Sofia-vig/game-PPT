@@ -98,7 +98,7 @@ app.get("/rooms/:roomId", (req, res) => {
         room.then((snap) => {
           const data = snap.data();
           if (data.player) {
-            res.status(400);
+            res.json({ message: "error" });
           } else {
             res.json(data);
           }

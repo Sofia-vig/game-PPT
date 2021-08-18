@@ -4,6 +4,7 @@ customElements.define(
     shadow = this.attachShadow({ mode: "open" });
     tags = ["h1", "p"];
     tag: string = "p";
+    margin: string;
     constructor() {
       super();
     }
@@ -12,8 +13,37 @@ customElements.define(
       if (this.tags.includes(tagAttribute)) {
         this.tag = tagAttribute;
       }
+      this.margin = this.getAttribute("margin") || "";
+
       const style = document.createElement("style");
-      style.innerHTML = `
+      if (this.margin == "no") {
+        style.innerHTML = `
+        .container-text{
+            width:317px;
+            margin:0 auto;
+            text-align:center;
+            height:240px;
+        }
+        .h1{
+            margin:0;
+            font-size:40px;
+            color:var(--color-title);
+            font-weight:400;
+            font-family: 'Permanent Marker', cursive;
+            line-height: 88.1%;
+        }
+        .p{
+          margin:0;
+          font-size:30px;
+          color:var(--color-subtitle);
+          font-weight:400;
+          font-family: 'Permanent Marker', cursive;
+          line-height: 40px;
+        }
+        
+        `;
+      } else {
+        style.innerHTML = `
       .container-text{
           width:317px;
           margin:30px auto 20px auto;
@@ -38,6 +68,8 @@ customElements.define(
       }
       
       `;
+      }
+
       this.shadow.appendChild(style);
       this.render();
     }
