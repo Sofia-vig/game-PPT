@@ -68,7 +68,6 @@ app.post("/rooms", (req, res) => {
             roomsCollection
               .doc(roomId.toString())
               .set({
-                owner: userId,
                 rtdbRoomId: roomLongId,
               })
               .then(() => {
@@ -97,11 +96,19 @@ app.get("/rooms/:roomId", (req, res) => {
         const room = roomsCollection.doc(roomId.toString()).get();
         room.then((snap) => {
           const data = snap.data();
-          if (data.player) {
-            res.json({ message: "error" });
-          } else {
-            res.json(data);
-          }
+          const rtdbId = data.rtdbRoomId;
+          const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
+          roomRef.once("value", (snap) => {
+            const players = snap.val();
+            if (
+              Object.keys(players).length == 2 &&
+              !players[userId.toString()]
+            ) {
+              res.json({ message: "error" });
+            } else {
+              res.json(data);
+            }
+          });
         });
       } else {
         res.status(401).json({
@@ -111,20 +118,23 @@ app.get("/rooms/:roomId", (req, res) => {
     });
 });
 
-//Estos dos deberian ir juntos pero no me funca
 //Agrega un participante al room
 app.post("/rooms/participants", (req, res) => {
   const { userId, name, roomId, rtdbId } = req.body;
+
   const roomRef = rtdb.ref(`rooms/${rtdbId}/currentGame/`);
 
-  roomsCollection.doc(roomId.toString()).update({
-    player: userId,
-  });
-
-  roomRef
-    .update({ [userId]: { name, choice: "", online: true, start: false } })
-    .then(() => {
-      res.json({ ok: true });
+  roomsCollection
+    .doc(roomId.toString())
+    .get()
+    .then((snap) => {
+      roomRef
+        .update({
+          [userId]: { name, choice: "", online: true, start: false },
+        })
+        .then(() => {
+          res.json(snap.data().history || "");
+        });
     });
 });
 

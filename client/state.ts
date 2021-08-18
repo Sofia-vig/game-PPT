@@ -1,3 +1,4 @@
+import { loadavg } from "os";
 import { rtdb } from "./db";
 
 const state = {
@@ -28,8 +29,13 @@ const state = {
   //Pushea jugadas a history
   pushToHistory() {
     const currentState = this.getState();
-    const moves = { you: currentState.myMove, other: currentState.otherMove };
+    const moves = {};
+    for (const key in currentState.currentGame) {
+      moves[key] = currentState.currentGame[key].choice;
+    }
+
     currentState.history.push(moves);
+    this.setState(currentState);
   },
 
   //Escucha los cambios del room
@@ -129,7 +135,12 @@ const state = {
     })
       .then((res) => res.json())
       .then((data) => {
-        // console.log(data);
+        if (data != "") {
+          console.log(data);
+
+          cs.history = data;
+          this.setState(cs);
+        }
         if (callback) {
           callback();
         }
@@ -174,7 +185,14 @@ const state = {
     var you = 0;
     var other = 0;
     cs.history.forEach((m) => {
-      const win = this.whoWins(m.you, m.other);
+      for (const key in m) {
+        if (key == cs.userId) {
+          var myMove = m[key];
+        } else {
+          var otherMove = m[key];
+        }
+      }
+      const win = this.whoWins(myMove, otherMove);
       if (win == "you") {
         you++;
       } else if (win == "other") {
@@ -186,8 +204,6 @@ const state = {
 
   //Devuelve quien gano la jugada actual
   whoWins(myPlay: string, otherPlay: string) {
-    const cs = this.getState();
-
     const youTijera = myPlay == "tijera" && otherPlay == "papel";
     const youPiedra = myPlay == "piedra" && otherPlay == "tijera";
     const youPapel = myPlay == "papel" && otherPlay == "piedra";
@@ -198,9 +214,9 @@ const state = {
     const compuPiedra = myPlay == "tijera" && otherPlay == "piedra";
     const compuPapel = myPlay == "piedra" && otherPlay == "papel";
 
-    const winCompu = [compuPapel, compuPiedra, compuTijera].includes(true);
+    const winOther = [compuPapel, compuPiedra, compuTijera].includes(true);
 
-    if (winCompu) {
+    if (winOther) {
       return "other";
     } else if (winYou) {
       return "you";
