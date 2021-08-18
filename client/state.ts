@@ -14,6 +14,8 @@ const state = {
     history: [],
   },
   listeners: [],
+
+  //Resetea al volver a jugar
   reset() {
     const cs = state.getState();
     cs.currentGame[cs.userId].start = false;
@@ -21,11 +23,15 @@ const state = {
     state.setState(cs);
     return state.updateDataRoom();
   },
+
+  //Pushea jugadas a history
   pushToHistory() {
     const currentState = this.getState();
     const moves = { you: currentState.myMove, other: currentState.otherMove };
     currentState.history.push(moves);
   },
+
+  //Escucha los cambios del room
   listenRoom() {
     const currentState = this.getState();
     const roomRef = rtdb.ref("/rooms/" + currentState.rtdbRoomId);
@@ -44,9 +50,13 @@ const state = {
       this.setState(cs);
     });
   },
+
+  //Devuelve this.data
   getState() {
     return this.data;
   },
+
+  //Setea jugada
   setMove(move: string) {
     const cs = this.getState();
     cs.currentGame[cs.userId].choice = move;
@@ -54,6 +64,8 @@ const state = {
     this.setState(cs);
     this.updateDataRoom();
   },
+
+  //Actualiza data del room
   updateDataRoom() {
     const cs = this.getState();
     return fetch("/rooms/" + cs.rtdbRoomId, {
@@ -74,6 +86,8 @@ const state = {
         console.log(err);
       });
   },
+
+  //Setea nombre y fetch a /signup
   setMyName(name: string) {
     const cs = this.getState();
     cs.name = name;
@@ -97,6 +111,8 @@ const state = {
       console.error("No ingresaste un name");
     }
   },
+
+  //Agrega el segundo participante
   addParticipant(callback?) {
     const cs = this.getState();
     fetch("/rooms/participants", {
@@ -122,6 +138,8 @@ const state = {
         console.log(err);
       });
   },
+
+  //Crea una room
   askNewRoom(callback?) {
     const cs = this.getState();
     if (cs.userId) {
@@ -149,6 +167,8 @@ const state = {
       console.error("no hay userId");
     }
   },
+
+  //Devuelve los puntajes
   getScore() {
     const cs = this.getState();
     var you = 0;
@@ -163,6 +183,8 @@ const state = {
     });
     return { you, other };
   },
+
+  //Devuelve quien gano la jugada actual
   whoWins(myPlay: string, otherPlay: string) {
     const cs = this.getState();
 
@@ -184,6 +206,8 @@ const state = {
       return "you";
     }
   },
+
+  //Acceder al room creado
   accessToRoom() {
     const cs = this.getState();
     const roomId = cs.roomId;
@@ -201,13 +225,16 @@ const state = {
         }
       });
   },
+
+  //Setea estado
   setState(newState) {
     this.data = newState;
     for (const cb of this.listeners) {
       cb();
     }
-    // console.log("El state cambio: ", this.data);
   },
+
+  //Avisa a los componentes/paginas los cambios del estado
   subscribe(callback: (any) => any) {
     this.listeners.push(callback);
   },
