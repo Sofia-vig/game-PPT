@@ -18,6 +18,7 @@ customElements.define(
       this.render();
       const button = this.querySelector("button-component");
       button.addEventListener("click", () => {
+        //A veces se bugea , y resetea a los dos juntos, no se porque pasa
         state.reset().then(() => {
           Router.go("/instructions");
         });

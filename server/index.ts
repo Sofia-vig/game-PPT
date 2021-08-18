@@ -82,7 +82,6 @@ app.post("/rooms", (req, res) => {
     });
 });
 
-//(Access to Room)
 //Devuelve el id de la rtdb
 app.get("/rooms/:roomId", (req, res) => {
   const { userId } = req.query;
@@ -110,7 +109,6 @@ app.get("/rooms/:roomId", (req, res) => {
 });
 
 //Estos dos deberian ir juntos pero no me funca
-
 //Agrega un participante al room
 app.post("/rooms/participants", (req, res) => {
   const { userId, name, roomId } = req.body;
@@ -128,7 +126,6 @@ app.post("/rooms/participants", (req, res) => {
     });
 });
 
-//No se como hacer un patch
 //Actualiza datos del roomId
 app.put("/rooms/:rtdbId", (req, res) => {
   const game = req.body.currentGame;
