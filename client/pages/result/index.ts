@@ -19,6 +19,8 @@ customElements.define(
       const button = this.querySelector("button-component");
       button.addEventListener("click", () => {
         //A veces se bugea , y resetea a los dos juntos, no se porque pasa
+        //Cuando pasa esto la persona que entro como segundo jugador empieza a manejar todo
+        //No se como solucionarlo
         state.reset().then(() => {
           Router.go("/instructions");
         });
