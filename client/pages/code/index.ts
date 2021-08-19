@@ -14,7 +14,7 @@ customElements.define(
           const isOnline =
             arrayParticipants[0].online && arrayParticipants[1].online;
           const isStart =
-            arrayParticipants[0].start && arrayParticipants[1].start;
+            arrayParticipants[0].start || arrayParticipants[1].start;
           if (isOnline && !isStart) {
             Router.go("/instructions");
           }

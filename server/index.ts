@@ -85,6 +85,7 @@ app.post("/rooms", (req, res) => {
 });
 
 //Devuelve el id de la rtdb
+//Si ya son dos jugadores o tu nombre no coincide con algun jugador devuelve un error
 app.get("/rooms/:roomId", (req, res) => {
   const { userId } = req.query;
   const { roomId } = req.params;
@@ -138,7 +139,7 @@ app.post("/rooms/participants", (req, res) => {
     });
 });
 
-//Actualiza datos del room
+//Actualiza datos del room en rtdb y el history de jugadas en firestore
 app.put("/rooms/:rtdbId", (req, res) => {
   const { userId, roomId, history } = req.body;
   const game = req.body.currentGame;
