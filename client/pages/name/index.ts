@@ -15,12 +15,16 @@ customElements.define(
         const nombre = e.target.name.value;
         const currentState = state.getState();
         if (currentState.roomId) {
+          //Si la persona ya tiene el roomId es porque esta entrando a un room existente
           state.setMyName(nombre).then(() => {
+            //Setea el nombre y accede al room
             state.accessToRoom().then(() => {
               const cs = state.getState();
+              //Si acessToRoom me da algun error redirecciono a pantalla /error
               if (cs.error) {
                 Router.go("/error");
               } else {
+                //Se agrega el participante al room y se redirecciona a /instructions
                 state.addParticipant(() => {
                   Router.go("/instructions");
                 });
@@ -28,6 +32,7 @@ customElements.define(
             });
           });
         } else {
+          //Si no tiene el roomId en el state se crea un room nuevo y se redirecciona a /code
           state.setMyName(nombre).then(() => {
             state.askNewRoom(() => {
               state.accessToRoom().then(() => {

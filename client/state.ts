@@ -1,4 +1,3 @@
-import { loadavg } from "os";
 import { rtdb } from "./db";
 
 const state = {
@@ -251,7 +250,6 @@ const state = {
     for (const cb of this.listeners) {
       cb();
     }
-    // console.log("state", this.data);
   },
 
   //Avisa a los componentes/paginas los cambios del estado

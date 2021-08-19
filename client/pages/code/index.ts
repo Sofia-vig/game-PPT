@@ -7,14 +7,17 @@ customElements.define(
   class extends HTMLElement {
     roomId: string;
     connectedCallback() {
+      //Me suscribo para escuchar cuando la otra persona esté online
       state.subscribe(() => {
         const currentState = state.getState();
         const arrayParticipants = map(currentState.currentGame);
+
         if (arrayParticipants.length == 2) {
           const isOnline =
             arrayParticipants[0].online && arrayParticipants[1].online;
           const isStart =
             arrayParticipants[0].start || arrayParticipants[1].start;
+          //Si los dos participantes estan online y tienen start en false van a la pantalla de instrucciones
           if (isOnline && !isStart) {
             Router.go("/instructions");
           }

@@ -18,11 +18,9 @@ customElements.define(
       this.render();
       const button = document.querySelector("button-component");
 
+      //Cuando eligen volver a jugar se resetea la informacion del jugador
+      //Redirecciona a /instructions
       button.addEventListener("click", () => {
-        //Se buguea pero no se como solucionarlo
-        //Si elige volver a jugar el que creo la room todo bien
-        //Pero si elige volver a jugar el q entra despues empieza a manejarle la pantalla al otro(?)
-        //Pero si nadie creo el room y solo entraron los dos a una partida pasada anda joya
         state.reset().then(() => {
           Router.go("/instructions");
         });

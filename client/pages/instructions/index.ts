@@ -9,16 +9,21 @@ customElements.define(
       this.render();
       const button = this.querySelector(".button-instructions");
       button.addEventListener("click", () => {
+        //Seteo start en true
         const currentState = state.getState();
         currentState.currentGame[currentState.userId].start = true;
         state.setState(currentState);
 
         const arrayParticipants = map(currentState.currentGame);
+
+        //Si los dos participantes le dieron a comenzar actualizo esa informacion
+        //Se redirecciona a /game
         if (arrayParticipants[0].start && arrayParticipants[1].start) {
           state.updateDataRoom().then(() => {
             Router.go("/game");
           });
         } else {
+          //Si alguno no le dio a start aun, va a la pantalla de /waiting
           state.updateDataRoom().then(() => {
             Router.go("/waiting");
           });

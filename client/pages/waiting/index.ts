@@ -7,6 +7,7 @@ customElements.define(
   class extends HTMLElement {
     otherName: string;
     connectedCallback() {
+      //Me suscribo para escuchar cuando el otro jugador tenga start:true
       state.subscribe(() => {
         const currentState = state.getState();
         this.otherName = currentState.otherName || "";

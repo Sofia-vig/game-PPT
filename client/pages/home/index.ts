@@ -10,6 +10,10 @@ customElements.define(
     connectedCallback() {
       this.render();
       const buttonNewRoom = this.querySelector(".new-room");
+
+      //Dependiendo de que boton elija, se setea roomChoice
+
+      //Si elige newRoom va a la pagina /name
       buttonNewRoom.addEventListener("click", (e) => {
         const currentState = state.getState();
         currentState.roomChoice = "newRoom";
@@ -17,6 +21,7 @@ customElements.define(
         Router.go("/name");
       });
 
+      //Si elige room existente va a la pagina para ingresar el codigo /new-code
       const buttonExistentRoom = this.querySelector(".existent-room");
       buttonExistentRoom.addEventListener("click", (e) => {
         const currentState = state.getState();

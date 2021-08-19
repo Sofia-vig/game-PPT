@@ -13,6 +13,8 @@ customElements.define(
         this.querySelector(".container-hand").querySelectorAll(
           "hand-component"
         );
+
+      //Dependiendo de que mano elija, seteo el movimiento
       handsElement.forEach((hand) => {
         hand.addEventListener("click", (e: any) => {
           this.myPlay = e.target.name;
@@ -20,6 +22,8 @@ customElements.define(
         });
       });
 
+      //Luego de los segundos para elegir me fijo si los dos jugadores seleccionaron una jugada
+      //Si alguno no selecciona redireccion a pagina /instructions sino se muestran las jugadas
       setTimeout(() => {
         const cs = state.getState();
         this.otherPlay = cs.otherMove;
@@ -59,6 +63,8 @@ customElements.define(
         </div>
           `;
       this.appendChild(style);
+      //Se muestran las manos por 3 segundos y despues se pushean las jugadas a history
+      //Redirecciona a pagina /result
       setTimeout(() => {
         state.pushToHistory();
         Router.go("/result");
