@@ -1,3 +1,8 @@
-Page: https://game-dwf.herokuapp.com/
+# Piedra, Papel o Tijera
 
-Postman: https://documenter.getpostman.com/view/16167969/TzzALGHF
+- Firebase
+- Express
+
+Heroku: https://game-dwf.herokuapp.com/
+
+API documentada en Postman: https://documenter.getpostman.com/view/16167969/TzzALGHF
