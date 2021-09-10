@@ -5,4 +5,4 @@
 
 Heroku: https://game-dwf.herokuapp.com/
 
-API documentada en Postman: https://documenter.getpostman.com/view/16167969/TzzALGHF
+Documentación Postman: https://documenter.getpostman.com/view/16167969/TzzALGHF
